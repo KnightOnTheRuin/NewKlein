@@ -2,11 +2,13 @@ package com.example.Klein.service.impl;
 
 import com.example.Klein.entity.Entertainment;
 import com.example.Klein.dao.EntertainmentDao;
+import com.example.Klein.entity.User;
 import com.example.Klein.service.EntertainmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 餐饮娱乐实体表(Entertainment)表服务实现类
@@ -65,5 +67,25 @@ public class EntertainmentServiceImpl implements EntertainmentService {
     @Override
     public boolean deleteById(Long entertainmentId) {
         return this.entertainmentDao.deleteById(entertainmentId) > 0;
+    }
+
+    @Override
+    public List<Entertainment> queryListByScenicID(Long scenicAreaId){
+        return this.entertainmentDao.queryEntertainmentByScenicAreaId(scenicAreaId);
+    }
+    @Override
+    public List<Entertainment> queryListByScenicName(String ScenicName){
+        return this.entertainmentDao.queryEntertainmentByScenicAreaName(ScenicName);
+    }
+
+    @Override
+    public int BatchInsert(List<Entertainment> entities) {
+        this.entertainmentDao.insertBatch(entities);
+        return 0;
+    }
+
+    @Override
+    public Long countByConditions(Entertainment entertainment) {
+        return this.entertainmentDao.count(entertainment);
     }
 }

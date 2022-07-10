@@ -27,7 +27,6 @@ public class GuestRoomController {
 
     /**
      * 通过主键查询单条数据
-     *
      * @param GuestRoomId 主键
      * @return 单条数据
      */
@@ -48,11 +47,9 @@ public class GuestRoomController {
         if(guestRoom.getHotelId()==null){
             return Result.fail(400,"增加对象时外键不允许为空",guestRoom);
         }
-        if(guestRoom.getRoomId()!=null){
-            GuestRoom newGuestRoom=guestRoomService.queryById(guestRoom.getRoomId());
+            GuestRoom newGuestRoom=this.guestRoomService.queryById(guestRoom.getRoomId());
             if (newGuestRoom==null){
                 return Result.fail(400,"外键scenicArea在表中不存在",guestRoom);
-            }
         }
         //正式添加
         GuestRoom _guestRoom = this.guestRoomService.insert(guestRoom);
@@ -90,10 +87,9 @@ public class GuestRoomController {
     }
 
     /**
-     * 删除数据
-     *
-     * @param guestRoomId 主键
-     * @return 删除是否成功
+      删除数据
+      @param guestRoomId 主键
+      @return 删除是否成功
      */
     @DeleteMapping("/deleteGuestRoomById")
     public Result deleteGuestRoomById(@RequestBody Long guestRoomId) {

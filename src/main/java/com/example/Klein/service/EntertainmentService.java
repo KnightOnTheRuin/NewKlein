@@ -1,6 +1,9 @@
 package com.example.Klein.service;
 
 import com.example.Klein.entity.Entertainment;
+import com.example.Klein.entity.User;
+
+import java.util.List;
 
 
 /**
@@ -43,5 +46,15 @@ public interface EntertainmentService {
      * @return 是否成功
      */
     boolean deleteById(Long entertainmentId);
+
+    //通过景区ID查找娱乐列表
+    List<Entertainment> queryListByScenicID(Long scenicAreaId);
+
+    //通过景区名字查找娱乐列表
+    List<Entertainment> queryListByScenicName(String ScenicName);
+
+    int BatchInsert(List<Entertainment> entities);
+
+    Long countByConditions(Entertainment entertainment);
 
 }

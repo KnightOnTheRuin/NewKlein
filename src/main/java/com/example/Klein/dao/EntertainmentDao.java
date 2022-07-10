@@ -26,7 +26,7 @@ public interface EntertainmentDao {
      * @param entertainment 查询条件
      * @return 总行数
      */
-    long count(Entertainment entertainment);
+    Long count(Entertainment entertainment);
 
     /**
      * 新增数据
@@ -75,7 +75,7 @@ public interface EntertainmentDao {
      * @param scenicAreaId 非主键
      * @return 实例对象
      */
-    List<Entertainment> queryEntertainmentByScenicAreaId(long scenicAreaId);
+    List<Entertainment> queryEntertainmentByScenicAreaId(Long scenicAreaId);
 
     /**
      * 通过景区名称查找餐饮娱乐
