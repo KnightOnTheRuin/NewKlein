@@ -146,12 +146,19 @@
     <delete id="deleteById">
         delete from scenic_area where scenic_Area_Id = #{scenicAreaId}
     </delete>
-
+    <!--模糊查询景点-->
     <select id="queryByDimName" resultMap="BaseResultMap">
         select
             scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
         from scenic_area
         where scenic_Area_Name like #{dimName}
+    </select>
+    <!--精确查询景点-->
+    <select id="queryByName" resultMap="BaseResultMap">
+        select
+            scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+        from scenic_area
+        where scenic_Area_Name = #{Name}
     </select>
 </mapper>
 

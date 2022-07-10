@@ -76,6 +76,14 @@ public interface ScenicAreaDao {
      */
     List<ScenicArea> queryByDimName(String dimName);
 
+    /**
+     * 通过名字精确查询景点
+     *
+     * @param Name 主键
+     * @return 实例对象
+     */
+    List<ScenicArea> queryByName(String Name);
+
 
 }
 
