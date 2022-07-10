@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 景区实体表(ScenicArea)表服务实现类
@@ -65,5 +66,15 @@ public class ScenicAreaServiceImpl implements ScenicAreaService {
     @Override
     public boolean deleteById(Long scenicAreaId) {
         return this.scenicAreaDao.deleteById(scenicAreaId) > 0;
+    }
+
+    @Override
+    public ScenicArea queryByName(String name) {
+        return this.scenicAreaDao.queryByName(name);
+    }
+
+    @Override
+    public List<ScenicArea> dimQueryByName(String dimNamein) {
+        return this.scenicAreaDao.queryByDimName(dimNamein);
     }
 }

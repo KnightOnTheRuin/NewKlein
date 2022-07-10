@@ -2,6 +2,8 @@ package com.example.Klein.service;
 
 import com.example.Klein.entity.ScenicArea;
 
+import java.util.List;
+
 /**
  * 景区实体表(ScenicArea)表服务接口
  *
@@ -42,4 +44,7 @@ public interface ScenicAreaService {
      */
     boolean deleteById(Long scenicAreaId);
 
+    ScenicArea queryByName(String name);
+
+    List<ScenicArea> dimQueryByName(String dimNamein);
 }

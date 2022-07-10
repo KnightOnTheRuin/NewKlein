@@ -82,7 +82,7 @@ public interface ScenicAreaDao {
      * @param Name 主键
      * @return 实例对象
      */
-    List<ScenicArea> queryByName(String Name);
+    ScenicArea queryByName(String Name);
 
 
 }

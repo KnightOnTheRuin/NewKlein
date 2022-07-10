@@ -85,5 +85,7 @@ public interface UserDao {
      * @return 实例对象
      */
     User queryUserByPhoneNumber(String phoneNumber);
-}
+
+    List<User> queryAll();
+ }
 

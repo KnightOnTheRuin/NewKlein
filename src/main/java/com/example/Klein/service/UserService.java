@@ -2,6 +2,8 @@ package com.example.Klein.service;
 
 import com.example.Klein.entity.User;
 
+import java.util.List;
+
 /**
  * 用户实体表，isAdmin为真，是管理员，为假，是普通游客，电话号码唯一(User)表服务接口
  *
@@ -43,4 +45,9 @@ public interface UserService {
      */
     boolean deleteById(Long userId);
 
+    User userLogin(String phoneNumber, String password);
+
+    List<User> queryAll();
+
+    User queryByPhoneNumber(String phoneNumber);
 }

@@ -2,8 +2,10 @@ package com.example.Klein.controller;
 
 import com.example.Klein.entity.Nearly;
 import com.example.Klein.service.NearlyService;
+import com.example.Klein.utils.result.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Node;
 
 import javax.annotation.Resource;
 
@@ -29,10 +31,11 @@ public class NearlyController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
-    public ResponseEntity<Nearly> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.nearlyService.queryById(id));
+    @GetMapping("queryNearlyById")
+    public Result queryNearlyById(@RequestBody Long id) {
+        return Result.success(this.nearlyService.queryById(id));
     }
+
 
     /**
      * 新增数据
@@ -40,20 +43,30 @@ public class NearlyController {
      * @param nearly 实体
      * @return 新增结果
      */
-    @PostMapping
-    public ResponseEntity<Nearly> add(Nearly nearly) {
-        return ResponseEntity.ok(this.nearlyService.insert(nearly));
+    @PostMapping("/addNearly")
+    public Result addNearly(@RequestBody Nearly nearly) {
+        try{
+            Nearly _nearly =  this.nearlyService.insert(nearly);
+            return Result.success(200,"添加成功",_nearly);
+        }catch (Exception e){
+            return Result.fail(402,"添加失败",null);
+        }
     }
-
     /**
      * 编辑数据
      *
      * @param nearly 实体
      * @return 编辑结果
      */
-    @PutMapping
-    public ResponseEntity<Nearly> edit(Nearly nearly) {
-        return ResponseEntity.ok(this.nearlyService.update(nearly));
+    @PutMapping("/editNearly")
+    public Result editNealy(@RequestBody Nearly nearly) {
+
+        Nearly _nearly = this.nearlyService.update(nearly);
+        if(_nearly != null){
+            return Result.success(200,"更新成功",_nearly);
+        }else{
+            return Result.fail(400,"更新失败",null);
+        }
     }
 
     /**
@@ -62,9 +75,14 @@ public class NearlyController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.nearlyService.deleteById(id));
+    @DeleteMapping("/deleteNearlyById")
+    public Result deleteTNById(@RequestBody Long id) {
+        boolean mark = this.nearlyService.deleteById(id);
+        if(mark) {
+            return Result.success(this.nearlyService.deleteById(id));
+        }else{
+            return Result.fail(400,"删除失败",null);
+        }
     }
 
 }

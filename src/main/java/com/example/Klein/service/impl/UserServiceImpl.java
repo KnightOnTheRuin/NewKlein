@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 用户实体表，isAdmin为真，是管理员，为假，是普通游客，电话号码唯一(User)表服务实现类
@@ -65,5 +66,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteById(Long userId) {
         return this.userDao.deleteById(userId) > 0;
+    }
+
+    @Override
+    public User userLogin(String phoneNumber, String password) {
+        return this.userDao.logIn(phoneNumber, password);
+    }
+
+    @Override
+    public List<User> queryAll() {
+        return this.userDao.queryAll();
+    }
+
+    @Override
+    public User queryByPhoneNumber(String phoneNumber) {
+        return this.userDao.queryUserByPhoneNumber(phoneNumber);
     }
 }

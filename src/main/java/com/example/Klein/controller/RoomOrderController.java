@@ -2,7 +2,7 @@ package com.example.Klein.controller;
 
 import com.example.Klein.entity.RoomOrder;
 import com.example.Klein.service.RoomOrderService;
-import org.springframework.http.ResponseEntity;
+import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,10 +28,11 @@ public class RoomOrderController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
-    public ResponseEntity<RoomOrder> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.roomOrderService.queryById(id));
+    @GetMapping("/queryRoomOrderById")
+    public Result queryRoomOrderById(@RequestBody Long id) {
+        return Result.success(this.roomOrderService.queryById(id));
     }
+
 
     /**
      * 新增数据
@@ -39,20 +40,29 @@ public class RoomOrderController {
      * @param roomOrder 实体
      * @return 新增结果
      */
-    @PostMapping
-    public ResponseEntity<RoomOrder> add(RoomOrder roomOrder) {
-        return ResponseEntity.ok(this.roomOrderService.insert(roomOrder));
+    @PostMapping("/addRoomOrder")
+    public Result addRoomOrder(@RequestBody RoomOrder roomOrder) {
+        try{
+            RoomOrder _roomOrder =  this.roomOrderService.insert(roomOrder);
+            return Result.success(200,"生成订单成功",_roomOrder);
+        }catch (Exception e){
+            return Result.fail(402,"生成订单失败",null);
+        }
     }
-
     /**
      * 编辑数据
      *
      * @param roomOrder 实体
      * @return 编辑结果
      */
-    @PutMapping
-    public ResponseEntity<RoomOrder> edit(RoomOrder roomOrder) {
-        return ResponseEntity.ok(this.roomOrderService.update(roomOrder));
+    @PutMapping("/editRoomOrder")
+    public Result editRoomOrder(@RequestBody RoomOrder roomOrder) {
+        RoomOrder ro = this.roomOrderService.update(roomOrder);
+        if(ro != null){
+            return Result.success(200,"更新成功",ro);
+        }else{
+            return Result.fail(400,"更新失败",null);
+        }
     }
 
     /**
@@ -61,9 +71,14 @@ public class RoomOrderController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.roomOrderService.deleteById(id));
+    @DeleteMapping("/deleteRoomOrderById")
+    public Result deleteRoomOrderById(@RequestBody Long id) {
+        boolean mark = this.roomOrderService.deleteById(id);
+        if(mark) {
+            return Result.success(this.roomOrderService.deleteById(id));
+        }else{
+            return Result.fail(400,"删除失败",null);
+        }
     }
 
 }
