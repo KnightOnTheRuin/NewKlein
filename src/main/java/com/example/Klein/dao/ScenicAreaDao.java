@@ -75,5 +75,7 @@ public interface ScenicAreaDao {
      * @return 实例对象
      */
     List<ScenicArea> queryByDimName(String dimName);
+
+
 }
 

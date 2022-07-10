@@ -142,5 +142,12 @@
         from user
         where phone_Number=#{param1,jdbcType=VARCHAR} and password=#{param2,jdbcType=VARCHAR}
     </select>
+
+    <select id="queryUserByPhoneNumber" resultMap="BaseResultMap">
+        select
+            user_Id, name, phone_Number, password, is_Admin, Icon
+        from user
+        where phone_Number=#{phoneNumber}
+    </select>
 </mapper>
 

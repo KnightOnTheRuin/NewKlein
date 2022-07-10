@@ -77,5 +77,13 @@ public interface UserDao {
      * @return 实例对象
      */
     User logIn(String phoneNumber,String password);
+
+    /**
+     * 通过电话查询人
+     *
+     * @param phoneNumber 主键
+     * @return 实例对象
+     */
+    User queryUserByPhoneNumber(String phoneNumber);
 }
 

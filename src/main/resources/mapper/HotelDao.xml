@@ -147,5 +147,25 @@
         delete from hotel where hotel_Id = #{hotelId}
     </delete>
 
+    <select id="queryHotelByStarLevel" resultMap="BaseResultMap">
+        select
+            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel
+        where star_Level=#{starLevel}
+    </select>
+
+    <select id="queryHotelHaveNoStar" resultMap="BaseResultMap">
+        select
+            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel
+        where star_Level=0
+    </select>
+
+    <select id="queryHotelHaveAnyStar" resultMap="BaseResultMap">
+        select
+            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel
+        where star_Level!=0
+    </select>
 </mapper>
 

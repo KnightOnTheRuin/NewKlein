@@ -69,6 +69,25 @@ public interface HotelDao {
      * @return 影响行数
      */
     int deleteById(Long hotelId);
+    /**
+     * 通过星级查找酒店
+     *
+     * @param starLevel 非主键
+     * @return 实例对象
+     */
+    List<Hotel> queryHotelByStarLevel(int starLevel);
+    /**
+     * 查找非星级酒店
+     *
+     * @return 实例对象
+     */
+    List<Hotel> queryHotelHaveNoStar();
 
+    /**
+     * 查找星级酒店
+     *
+     * @return 实例对象
+     */
+    List<Hotel> queryHotelHaveAnyStar();
 }
 
