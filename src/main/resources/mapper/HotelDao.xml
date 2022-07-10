@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Klein.dao.HotelDao">
+
+    <resultMap id="BaseResultMap" type="com.example.Klein.entity.Hotel">
+        <!--@Table hotel-->
+        <result property="hotelId" column="hotel_Id" jdbcType="INTEGER"/>
+        <result property="hotelName" column="hotel_Name" jdbcType="VARCHAR"/>
+        <result property="starLevel" column="star_Level" jdbcType="INTEGER"/>
+        <result property="phoneNumber" column="phone_Number" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="VARCHAR"/>
+        <result property="icon" column="Icon" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel
+        where hotel_Id = #{hotelId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel
+        <where>
+            <if test="hotelId != null">
+                and hotel_Id = #{hotelId}
+            </if>
+            <if test="hotelName != null and hotelName != ''">
+                and hotel_Name = #{hotelName}
+            </if>
+            <if test="starLevel != null">
+                and star_Level = #{starLevel}
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                and phone_Number = #{phoneNumber}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="price != null and price != ''">
+                and price = #{price}
+            </if>
+            <if test="icon != null and icon != ''">
+                and Icon = #{icon}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from klein.hotel
+    </select>
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from hotel
+        <where>
+            <if test="hotelId != null">
+                and hotel_Id = #{hotelId}
+            </if>
+            <if test="hotelName != null and hotelName != ''">
+                and hotel_Name = #{hotelName}
+            </if>
+            <if test="starLevel != null">
+                and star_Level = #{starLevel}
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                and phone_Number = #{phoneNumber}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="price != null and price != ''">
+                and price = #{price}
+            </if>
+            <if test="icon != null and icon != ''">
+                and Icon = #{icon}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="hotelId" useGeneratedKeys="true">
+        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon)
+        values (#{hotelName}, #{starLevel}, #{phoneNumber}, #{address}, #{price}, #{icon})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="hotelId" useGeneratedKeys="true">
+        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.hotelName}, #{entity.starLevel}, #{entity.phoneNumber}, #{entity.address}, #{entity.price}, #{entity.icon})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="hotelId" useGeneratedKeys="true">
+        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.hotelName}, #{entity.starLevel}, #{entity.phoneNumber}, #{entity.address}, #{entity.price}, #{entity.icon})
+        </foreach>
+        on duplicate key update
+        hotel_Name = values(hotel_Name),
+        star_Level = values(star_Level),
+        phone_Number = values(phone_Number),
+        address = values(address),
+        price = values(price),
+        Icon = values(Icon)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hotel
+        <set>
+            <if test="hotelName != null and hotelName != ''">
+                hotel_Name = #{hotelName},
+            </if>
+            <if test="starLevel != null">
+                star_Level = #{starLevel},
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                phone_Number = #{phoneNumber},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="icon != null and icon != ''">
+                Icon = #{icon},
+            </if>
+        </set>
+        where hotel_Id = #{hotelId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hotel where hotel_Id = #{hotelId}
+    </delete>
+
+</mapper>
+

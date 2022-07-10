@@ -1,0 +1,50 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  tomcat:
+    #最大线程数
+    max-threads: 1000
+    #最大连接数
+    max-connections: 20000
+    #最大全接连数(TCP)
+    accept-count: 8000
+    uri-encoding: UTF-8
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  # 开启驼峰命名
+  mapper-locations: classpath:mapper/*.xml
+spring:
+  #数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.52.105:3306/Klein?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+  devtools:
+    #热部署生效,默认就是true
+    restart:
+      enabled: true
+#分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  offset-as-page-num: true
+  row-bounds-with-count: true
+  page-size-zero: true
+  reasonable: false
+#logback
+logging:
+  level:
+    com.junction: debug
+  #将日志输出到文件
+  config: classpath:logback-spring.xml
+# 设定thymeleaf
+thymeleaf:
+  prefix: classpath:/templates/
+  suffix: .html
+  #servlet:
+  #content-type: text/html
+  encoding: UTF-8
+  mode: LEGACYHTML5
+  # 关闭页面缓存
+  cache: false
