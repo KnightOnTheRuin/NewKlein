@@ -135,6 +135,12 @@
     <delete id="deleteById">
         delete from user where user_Id = #{userId}
     </delete>
-
+    <!--通过电话和密码登录-->
+    <select id="logIn" resultMap="BaseResultMap">
+        select
+            user_Id, name, phone_Number, password, is_Admin, Icon
+        from user
+        where phone_Number=#{param1,jdbcType=VARCHAR} and password=#{param2,jdbcType=VARCHAR}
+    </select>
 </mapper>
 

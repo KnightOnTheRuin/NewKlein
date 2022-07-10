@@ -69,6 +69,13 @@ public interface UserDao {
      * @return 影响行数
      */
     int deleteById(Long userId);
-
+    /**
+     * 通过电话和密码登录
+     *
+     * @param phoneNumber 主键
+     * @param password 主键
+     * @return 实例对象
+     */
+    User logIn(String phoneNumber,String password);
 }
 

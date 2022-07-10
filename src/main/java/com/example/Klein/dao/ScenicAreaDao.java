@@ -68,6 +68,12 @@ public interface ScenicAreaDao {
      * @return 影响行数
      */
     int deleteById(Long scenicAreaId);
-
+    /**
+     * 通过模糊名字查询景点
+     *
+     * @param dimName 主键
+     * @return 实例对象
+     */
+    List<ScenicArea> queryByDimName(String dimName);
 }
 
