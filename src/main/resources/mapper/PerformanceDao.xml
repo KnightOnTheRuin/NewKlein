@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Klein.dao.PerformanceDao">
+
+    <resultMap id="BaseResultMap" type="com.example.Klein.entity.Performance">
+        <!--@Table performance-->
+        <result property="performanceId" column="performance_Id" jdbcType="INTEGER"/>
+        <result property="scenicAreaId" column="scenic_Area_Id" jdbcType="INTEGER"/>
+        <result property="performanceName" column="performance_Name" jdbcType="VARCHAR"/>
+        <result property="teamName" column="team_Name" jdbcType="VARCHAR"/>
+        <result property="performanceType" column="performance_Type" jdbcType="VARCHAR"/>
+        <result property="icon" column="Icon" jdbcType="VARCHAR"/>
+        <result property="time" column="time" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+        from performance
+        where performance_Id = #{performanceId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+        from performance
+        <where>
+            <if test="performanceId != null">
+                and performance_Id = #{performanceId}
+            </if>
+            <if test="scenicAreaId != null">
+                and scenic_Area_Id = #{scenicAreaId}
+            </if>
+            <if test="performanceName != null and performanceName != ''">
+                and performance_Name = #{performanceName}
+            </if>
+            <if test="teamName != null and teamName != ''">
+                and team_Name = #{teamName}
+            </if>
+            <if test="performanceType != null and performanceType != ''">
+                and performance_Type = #{performanceType}
+            </if>
+            <if test="icon != null and icon != ''">
+                and Icon = #{icon}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+        from klein.performance
+    </select>
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from performance
+        <where>
+            <if test="performanceId != null">
+                and performance_Id = #{performanceId}
+            </if>
+            <if test="scenicAreaId != null">
+                and scenic_Area_Id = #{scenicAreaId}
+            </if>
+            <if test="performanceName != null and performanceName != ''">
+                and performance_Name = #{performanceName}
+            </if>
+            <if test="teamName != null and teamName != ''">
+                and team_Name = #{teamName}
+            </if>
+            <if test="performanceType != null and performanceType != ''">
+                and performance_Type = #{performanceType}
+            </if>
+            <if test="icon != null and icon != ''">
+                and Icon = #{icon}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="performanceId" useGeneratedKeys="true">
+        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time)
+        values (#{scenicAreaId}, #{performanceName}, #{teamName}, #{performanceType}, #{icon}, #{time})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="performanceId" useGeneratedKeys="true">
+        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.scenicAreaId}, #{entity.performanceName}, #{entity.teamName}, #{entity.performanceType}, #{entity.icon}, #{entity.time})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="performanceId" useGeneratedKeys="true">
+        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.scenicAreaId}, #{entity.performanceName}, #{entity.teamName}, #{entity.performanceType}, #{entity.icon}, #{entity.time})
+        </foreach>
+        on duplicate key update
+        scenic_Area_Id = values(scenic_Area_Id),
+        performance_Name = values(performance_Name),
+        team_Name = values(team_Name),
+        performance_Type = values(performance_Type),
+        Icon = values(Icon),
+        time = values(time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update performance
+        <set>
+            <if test="scenicAreaId != null">
+                scenic_Area_Id = #{scenicAreaId},
+            </if>
+            <if test="performanceName != null and performanceName != ''">
+                performance_Name = #{performanceName},
+            </if>
+            <if test="teamName != null and teamName != ''">
+                team_Name = #{teamName},
+            </if>
+            <if test="performanceType != null and performanceType != ''">
+                performance_Type = #{performanceType},
+            </if>
+            <if test="icon != null and icon != ''">
+                Icon = #{icon},
+            </if>
+            <if test="time != null and time != ''">
+                time = #{time},
+            </if>
+        </set>
+        where performance_Id = #{performanceId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from performance where performance_Id = #{performanceId}
+    </delete>
+
+</mapper>
+
