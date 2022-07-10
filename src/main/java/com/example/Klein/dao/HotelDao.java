@@ -96,6 +96,6 @@ public interface HotelDao {
      * @param ScenicAreaId 非主键
      * @return 实例对象
      */
-    List<Hotel> queryHotelNearScenicArea(long ScenicAreaId);
+    List<Hotel> queryHotelNearScenicArea(Long ScenicAreaId);
 }
 

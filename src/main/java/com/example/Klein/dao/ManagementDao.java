@@ -76,7 +76,7 @@ public interface ManagementDao {
      * @param hotelId 主键
      * @return 实例对象
      */
-    Hotel queryHotelByHotelId(long hotelId);
+    Hotel queryHotelByHotelId(Long hotelId);
 
 
 

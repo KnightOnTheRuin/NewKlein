@@ -74,7 +74,7 @@ public interface PerformanceDao {
      * @param scenicAreaId  非主键
      * @return 实例对象
      */
-    List<Performance> queryPerformanceByScenicAreaId(long scenicAreaId);
+    List<Performance> queryPerformanceByScenicAreaId(Long scenicAreaId);
 
     /**
      * 通过景区名查找节目
