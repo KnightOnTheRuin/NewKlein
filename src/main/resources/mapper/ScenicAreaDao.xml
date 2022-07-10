@@ -160,5 +160,11 @@
         from scenic_area
         where scenic_Area_Name = #{Name}
     </select>
+    <!--查找酒店附近景区-->
+    <select id="queryScenicAreaNearHotel" resultMap="BaseResultMap">
+        select scenic_area.scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+        from nearly,scenic_area
+        where nearly.scenic_Area_Id=scenic_area.scenic_Area_Id and nearly.hotel_Id=#{hotelId}
+    </select>
 </mapper>
 

@@ -69,5 +69,19 @@ public interface RoomOrderDao {
      */
     int deleteById(Long orderId);
 
+    /**
+     * 通过管理员Id查找到当前管理员需要处理的所有订单
+     *
+     * @param adminId 主键
+     * @return 实例对象
+     */
+    List<RoomOrder> queryOrderByAdminId(long adminId);
+    /**
+     * 通过游客Id查找到当前游客的所有订单
+     *
+     * @param visitorId 主键
+     * @return 实例对象
+     */
+    List<RoomOrder> queryOrderByVisitorId(long visitorId);
 }
 

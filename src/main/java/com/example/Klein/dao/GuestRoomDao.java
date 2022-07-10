@@ -69,6 +69,12 @@ public interface GuestRoomDao {
      * @return 影响行数
      */
     int deleteById(Long roomId);
-
+    /**
+     * 通过酒店Id查找酒店所包含的房间类型
+     *
+     * @param hotelId 主键
+     * @return 实例对象
+     */
+    List<GuestRoom> queryRoomByHotelId(long hotelId);
 }
 

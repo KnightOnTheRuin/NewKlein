@@ -124,6 +124,19 @@
     <delete id="deleteById">
         delete from entertainment where entertainment_Id = #{entertainmentId}
     </delete>
-
+    <!--通过景区Id查找餐饮娱乐-->
+    <select id="queryEntertainmentByScenicAreaId" resultMap="BaseResultMap">
+        select
+            entertainment_Id, entertainment_Name, entertainment_Type, scenic_Area_Id, Icon
+        from entertainment
+        where scenic_Area_Id=#{scenicAreaId}
+    </select>
+    <!--通过景区名查找餐饮娱乐-->
+    <select id="queryEntertainmentByScenicAreaName" resultMap="BaseResultMap">
+        select
+            entertainment_Id, entertainment_Name, entertainment_Type, entertainment.scenic_Area_Id, Icon
+        from scenic_area,entertainment
+        where scenic_area.scenic_Area_Name=#{scenicAreaName} and scenic_area.scenic_Area_Id=entertainment.scenic_Area_Id
+    </select>
 </mapper>
 

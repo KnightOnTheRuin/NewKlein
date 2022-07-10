@@ -1,5 +1,6 @@
 package com.example.Klein.dao;
 
+import com.example.Klein.entity.Hotel;
 import com.example.Klein.entity.Management;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -68,6 +69,16 @@ public interface ManagementDao {
      * @return 影响行数
      */
     int deleteById(Long managementId);
+
+    /**
+     * 通过hotel_Id返回hotel对象
+     *
+     * @param hotelId 主键
+     * @return 实例对象
+     */
+    Hotel queryHotelByHotelId(long hotelId);
+
+
 
 }
 

@@ -147,5 +147,11 @@
         delete from guest_room where room_Id = #{roomId}
     </delete>
 
+    <select id="queryRoomByHotelId" resultMap="BaseResultMap">
+        select
+            room_Id, room_Type, room_Environment, icon, price, is_Full, hotel_Id
+        from guest_room
+        where hotel_Id=#{hotelId}
+    </select>
 </mapper>
 

@@ -124,6 +124,19 @@
     <delete id="deleteById">
         delete from room_order where order_Id = #{orderId}
     </delete>
+    <!--通过管理员Id查询所有订单，即当前管理员查看自己需要处理或者已经处理过的订单-->
+    <select id="queryOrderByAdminId" resultMap="BaseResultMap">
+        select
+            order_Id, order_description, visitor_id, room_order.hotel_id, result
+        from room_order,hotel,management
+        where management.administrator_Id=#{adminId} and management.hotel_Id=hotel.hotel_Id and hotel.hotel_Id=room_order.hotel_id
 
+    </select>
+    <!--通过游客Id查询所有订单，即游客查找自己的所有订单-->
+    <select id="queryOrderByVisitorId" resultMap="BaseResultMap">
+        select order_Id, order_description, visitor_id, room_order.hotel_id, result
+        from room_order
+        where room_order.visitor_id=#{visitorId}
+    </select>
 </mapper>
 

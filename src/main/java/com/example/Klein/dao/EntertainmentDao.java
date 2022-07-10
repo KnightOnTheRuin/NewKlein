@@ -69,5 +69,21 @@ public interface EntertainmentDao {
      */
     int deleteById(Long entertainmentId);
 
+    /**
+     * 通过景区Id查找餐饮娱乐
+     *
+     * @param scenicAreaId 非主键
+     * @return 实例对象
+     */
+    List<Entertainment> queryEntertainmentByScenicAreaId(long scenicAreaId);
+
+    /**
+     * 通过景区名称查找餐饮娱乐
+     *
+     * @param scenicAreaName 非主键
+     * @return 实例对象
+     */
+    List<Entertainment> queryEntertainmentByScenicAreaName(String scenicAreaName);
+
 }
 

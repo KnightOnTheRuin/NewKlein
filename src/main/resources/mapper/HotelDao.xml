@@ -146,26 +146,32 @@
     <delete id="deleteById">
         delete from hotel where hotel_Id = #{hotelId}
     </delete>
-
+    <!--通过星级查酒店-->
     <select id="queryHotelByStarLevel" resultMap="BaseResultMap">
         select
             hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
         from hotel
         where star_Level=#{starLevel}
     </select>
-
+    <!--查找非星级酒店-->
     <select id="queryHotelHaveNoStar" resultMap="BaseResultMap">
         select
             hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
         from hotel
         where star_Level=0
     </select>
-
+    <!--查找星级酒店-->
     <select id="queryHotelHaveAnyStar" resultMap="BaseResultMap">
         select
             hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
         from hotel
         where star_Level!=0
+    </select>
+    <!--查找景区附近酒店-->
+    <select id="queryHotelNearScenicArea" resultMap="BaseResultMap">
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel,nearly
+        where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId}
     </select>
 </mapper>
 

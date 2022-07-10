@@ -102,6 +102,11 @@
     <delete id="deleteById">
         delete from management where management_Id = #{managementId}
     </delete>
-
+    <!--通过酒店Id返回酒店对象-->
+    <select id="queryHotelByHotelId" resultType="com.example.Klein.entity.Hotel">
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel,management
+        where management.hotel_Id=hotel.hotel_Id and hotel.hotel_Id=#{hotelId}
+    </select>
 </mapper>
 

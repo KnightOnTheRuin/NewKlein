@@ -89,5 +89,13 @@ public interface HotelDao {
      * @return 实例对象
      */
     List<Hotel> queryHotelHaveAnyStar();
+
+    /**
+     * 通过景区Id查找附近酒店
+     *
+     * @param ScenicAreaId 非主键
+     * @return 实例对象
+     */
+    List<Hotel> queryHotelNearScenicArea(long ScenicAreaId);
 }
 

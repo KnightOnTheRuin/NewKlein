@@ -146,6 +146,19 @@
     <delete id="deleteById">
         delete from performance where performance_Id = #{performanceId}
     </delete>
-
+    <!--通过景区Id查找演出-->
+    <select id="queryPerformanceByScenicAreaId" resultMap="BaseResultMap">
+        select
+            performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+        from performance
+        where scenic_Area_Id=#{scenicAreaId}
+    </select>
+    <!--通过景区名查找演出-->
+    <select id="queryPerformanceByScenicAreaName" resultMap="BaseResultMap">
+        select
+            performance_Id, performance.scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+        from performance,scenic_area
+        where scenic_area.scenic_Area_Name=#{scenicAreaName} and scenic_area.scenic_Area_Id = performance.scenic_Area_Id
+    </select>
 </mapper>
 

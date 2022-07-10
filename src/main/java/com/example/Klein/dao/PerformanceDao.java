@@ -68,6 +68,20 @@ public interface PerformanceDao {
      * @return 影响行数
      */
     int deleteById(Long performanceId);
+    /**
+     * 通过景区Id查找节目
+     *
+     * @param scenicAreaId  非主键
+     * @return 实例对象
+     */
+    List<Performance> queryPerformanceByScenicAreaId(long scenicAreaId);
 
+    /**
+     * 通过景区名查找节目
+     *
+     * @param scenicAreaName  非主键
+     * @return 实例对象
+     */
+    List<Performance> queryPerformanceByScenicAreaName(String scenicAreaName);
 }
 

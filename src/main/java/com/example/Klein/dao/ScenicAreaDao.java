@@ -84,6 +84,12 @@ public interface ScenicAreaDao {
      */
     ScenicArea queryByName(String Name);
 
-
+    /**
+     * 通过酒店Id查找附近景区
+     *
+     * @param hotelId 非主键
+     * @return 实例对象
+     */
+    List<ScenicArea> queryScenicAreaNearHotel(long hotelId);
 }
 
