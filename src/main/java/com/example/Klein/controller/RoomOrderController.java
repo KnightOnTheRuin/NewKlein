@@ -1,8 +1,11 @@
 package com.example.Klein.controller;
 
+import com.example.Klein.entity.PageSendMessage;
 import com.example.Klein.entity.Performance;
 import com.example.Klein.entity.RoomOrder;
+import com.example.Klein.entity.ScenicArea;
 import com.example.Klein.service.RoomOrderService;
+import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,6 +116,37 @@ public class RoomOrderController {
             result.setData(null);
         }
         return Result.success(result.getData());
+    }
+
+    @PostMapping("/queryAllOrderListByPage")
+    public Result queryAllOrderListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //数据解封
+        int currentPage,PageSize;
+        currentPage=pageSendMessage.getCurrentPage();
+        PageSize=pageSendMessage.getPageSize();
+        int firstIndex=(currentPage-1)*PageSize;
+        int lastIndex=currentPage*PageSize;
+
+        //实现分页并封装
+        Result result = new Result();
+        List<RoomOrder> roomOrderList =this.roomOrderService.queryAll();
+        if(lastIndex>roomOrderList.size()){
+            lastIndex=roomOrderList.size();
+        }
+        List<RoomOrder> returnRoomOrderList =roomOrderList.subList(firstIndex,lastIndex);
+        PageMessage pageMessage=new PageMessage();
+        pageMessage.setRoomOrderPageList(returnRoomOrderList);
+        pageMessage.setTotalResult(roomOrderList.size());
+        pageMessage.setTotalPage(roomOrderList.size()/PageSize+1);
+        pageMessage.setTotal(lastIndex-firstIndex);
+
+        if(roomOrderList != null){
+            result.setData(pageMessage);
+            return Result.success(result.getData());
+        }else{
+            result.setData(currentPage);
+            return Result.success(result.getData());
+        }
     }
 
 }

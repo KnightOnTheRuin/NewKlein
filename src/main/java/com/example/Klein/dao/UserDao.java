@@ -94,6 +94,6 @@ public interface UserDao {
      * @param hotelId 非主键
      * @return 实例对象
      */
-    User queryAdministratorByHotelId(long hotelId);
+    User queryAdministratorByHotelId(Long hotelId);
  }
 

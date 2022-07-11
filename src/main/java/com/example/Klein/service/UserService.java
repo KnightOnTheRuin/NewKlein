@@ -45,10 +45,16 @@ public interface UserService {
      */
     boolean deleteById(Long userId);
 
+    //登录
     User userLogin(String phoneNumber, String password);
 
+    //查询全部
     List<User> queryAll();
 
+    //通过账号（电话）查询
     User queryByPhoneNumber(String phoneNumber);
+
+    //通过酒店ID查找管理员
+    User queryAdminByHotelId(Long hotelId);
 
 }

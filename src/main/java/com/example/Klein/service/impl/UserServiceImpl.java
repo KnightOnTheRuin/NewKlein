@@ -82,4 +82,9 @@ public class UserServiceImpl implements UserService {
     public User queryByPhoneNumber(String phoneNumber) {
         return this.userDao.queryUserByPhoneNumber(phoneNumber);
     }
+
+    @Override
+    public User queryAdminByHotelId(Long hotelId) {
+        return this.userDao.queryAdministratorByHotelId(hotelId);
+    }
 }

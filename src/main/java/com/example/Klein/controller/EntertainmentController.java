@@ -1,10 +1,9 @@
 package com.example.Klein.controller;
 
-import com.example.Klein.entity.Entertainment;
-import com.example.Klein.entity.ScenicArea;
-import com.example.Klein.entity.User;
+import com.example.Klein.entity.*;
 import com.example.Klein.service.EntertainmentService;
 import com.example.Klein.service.ScenicAreaService;
+import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -159,10 +158,41 @@ public class EntertainmentController {
         }
     }
 
-    @PostMapping("/CountByCondtion")
-    public Result CountByCondtion(@RequestBody Entertainment entertainment){
+    @PostMapping("/CountByCondition")
+    public Result CountByCondition(@RequestBody Entertainment entertainment){
         Long count =this.entertainmentService.countByConditions(entertainment);
         return  Result.success(200,"查询成功",count);
+    }
+
+    @PostMapping("/queryAllEntertainmentListByPage")
+    public Result queryAllEntertainmentListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //数据解封
+        int currentPage,PageSize;
+        currentPage=pageSendMessage.getCurrentPage();
+        PageSize=pageSendMessage.getPageSize();
+        int firstIndex=(currentPage-1)*PageSize;
+        int lastIndex=currentPage*PageSize;
+        //实现分页并封装
+        Result result = new Result();
+        List<Entertainment> entertainmentList =this.entertainmentService.queryAll();
+        if(lastIndex>entertainmentList.size()){
+            lastIndex=entertainmentList.size();
+        }
+
+        List<Entertainment> retrunentertainmentList =entertainmentList.subList(firstIndex,lastIndex);
+        PageMessage pageMessage=new PageMessage();
+        pageMessage.setEntertainmentPageList(retrunentertainmentList);
+        pageMessage.setTotalResult(entertainmentList.size());
+        pageMessage.setTotalPage(entertainmentList.size()/PageSize+1);
+        pageMessage.setTotal(lastIndex-firstIndex);
+
+        if(entertainmentList != null){
+            result.setData(pageMessage);
+            return Result.success(result.getData());
+        }else{
+            result.setData(currentPage);
+            return Result.success(result.getData());
+        }
     }
 
 }

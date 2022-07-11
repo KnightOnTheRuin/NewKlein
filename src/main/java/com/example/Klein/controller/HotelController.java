@@ -1,9 +1,8 @@
 package com.example.Klein.controller;
 
-import com.example.Klein.entity.GuestRoom;
-import com.example.Klein.entity.Hotel;
-import com.example.Klein.entity.NewHotel;
+import com.example.Klein.entity.*;
 import com.example.Klein.service.HotelService;
+import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -212,6 +211,63 @@ public class HotelController {
         }
         return Result.success(result.getData());
     }
+
+
+    //通过管理员Id查找管理酒店List
+    @PostMapping("/queryHotelListByAdminId")
+    public Result queryHotelListByAdminId(@RequestBody Long adminId){
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryHotelListByAdminId(adminId);
+
+        //hotel转NewHotel
+        List<NewHotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            NewHotel newHotel=new NewHotel(tempHotel);
+            NewHotelList.add(newHotel);
+        }
+
+        if(NewHotelList != null){
+            result.setData(NewHotelList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+
+    //分页查询
+    @PostMapping("/queryAllHotelListByPage")
+    public Result queryAllHotelListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //数据解封
+        int currentPage,PageSize;
+        currentPage=pageSendMessage.getCurrentPage();
+        PageSize=pageSendMessage.getPageSize();
+        int firstIndex=(currentPage-1)*PageSize;
+        int lastIndex=currentPage*PageSize;
+
+        //实现分页并封装
+        Result result = new Result();
+        List<Hotel> hotelList =this.hotelService.queryAll();
+        if(lastIndex>hotelList.size()){
+            lastIndex=hotelList.size();
+        }
+        List<Hotel> returnHotelList =hotelList.subList(firstIndex,lastIndex);
+        PageMessage pageMessage=new PageMessage();
+        pageMessage.setHotelPageList(returnHotelList);
+        pageMessage.setTotalResult(hotelList.size());
+        pageMessage.setTotalPage(hotelList.size()/PageSize+1);
+        pageMessage.setTotal(lastIndex-firstIndex);
+
+        if(hotelList != null){
+            result.setData(pageMessage);
+            return Result.success(result.getData());
+        }else{
+            result.setData(currentPage);
+            return Result.success(result.getData());
+        }
+    }
+
 
 }
 

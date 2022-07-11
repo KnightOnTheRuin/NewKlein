@@ -2,8 +2,10 @@ package com.example.Klein.controller;
 
 import com.example.Klein.entity.Entertainment;
 import com.example.Klein.entity.GuestRoom;
+import com.example.Klein.entity.PageSendMessage;
 import com.example.Klein.entity.ScenicArea;
 import com.example.Klein.service.GuestRoomService;
+import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -122,6 +124,37 @@ public class GuestRoomController {
     public Result CountRoomByCondtion(@RequestBody GuestRoom guestRoom){
         Long count =this.guestRoomService.countByConditions(guestRoom);
         return  Result.success(200,"查询成功",count);
+    }
+
+    @PostMapping("/queryAllRoomListByPage")
+    public Result queryAllRoomListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //数据解封
+        int currentPage,PageSize;
+        currentPage=pageSendMessage.getCurrentPage();
+        PageSize=pageSendMessage.getPageSize();
+        int firstIndex=(currentPage-1)*PageSize;
+        int lastIndex=currentPage*PageSize;
+
+        //实现分页并封装
+        Result result = new Result();
+        List<GuestRoom> guestRoomList =this.guestRoomService.queryAll();
+        if(lastIndex>guestRoomList.size()){
+            lastIndex=guestRoomList.size();
+        }
+        List<GuestRoom> retrunGuestRoomList =guestRoomList.subList(firstIndex,lastIndex);
+        PageMessage pageMessage=new PageMessage();
+        pageMessage.setGuestRoomPageList(retrunGuestRoomList);
+        pageMessage.setTotalResult(guestRoomList.size());
+        pageMessage.setTotalPage(guestRoomList.size()/PageSize+1);
+        pageMessage.setTotal(lastIndex-firstIndex);
+
+        if(guestRoomList != null){
+            result.setData(pageMessage);
+            return Result.success(result.getData());
+        }else{
+            result.setData(currentPage);
+            return Result.success(result.getData());
+        }
     }
 }
 

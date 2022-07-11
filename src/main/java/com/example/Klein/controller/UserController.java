@@ -1,11 +1,13 @@
 package com.example.Klein.controller;
 
-import com.example.Klein.entity.User;
+import com.example.Klein.entity.*;
 import com.example.Klein.service.UserService;
+import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -113,5 +115,49 @@ public class UserController {
         }
     }
 
+    @PostMapping("/queryAdminByHotelId")
+    public Result queryAdminByHotelId(@RequestBody Long hotelId){
+        Result result = new Result();
+        User user= this.userService.queryAdminByHotelId(hotelId);
+
+        if(user != null){
+            result.setData(user);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //分页查询全部
+    @PostMapping("/queryAllUserListByPage")
+    public Result queryAllUserListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //数据解封
+        int currentPage,PageSize;
+        currentPage=pageSendMessage.getCurrentPage();
+        PageSize=pageSendMessage.getPageSize();
+        int firstIndex=(currentPage-1)*PageSize;
+        int lastIndex=currentPage*PageSize;
+
+        //实现分页并封装
+        Result result = new Result();
+        List<User> userList =this.userService.queryAll();
+        if(lastIndex>userList.size()){
+            lastIndex=userList.size();
+        }
+        List<User> returnUserList =userList.subList(firstIndex,lastIndex);
+        PageMessage pageMessage=new PageMessage();
+        pageMessage.setUserList(returnUserList);
+        pageMessage.setTotalResult(userList.size());
+        pageMessage.setTotalPage(userList.size()/PageSize+1);
+        pageMessage.setTotal(lastIndex-firstIndex);
+
+        if(userList != null){
+            result.setData(pageMessage);
+            return Result.success(result.getData());
+        }else{
+            result.setData(currentPage);
+            return Result.success(result.getData());
+        }
+    }
 }
 

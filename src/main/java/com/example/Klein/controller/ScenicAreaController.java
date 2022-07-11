@@ -1,8 +1,11 @@
 package com.example.Klein.controller;
 
+import com.example.Klein.entity.Entertainment;
+import com.example.Klein.entity.PageSendMessage;
 import com.example.Klein.entity.RoomOrder;
 import com.example.Klein.entity.ScenicArea;
 import com.example.Klein.service.ScenicAreaService;
+import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,7 +118,36 @@ public class ScenicAreaController {
         }
         return Result.success(result.getData());
     }
+    @PostMapping("/queryAllScenicListByPage")
+    public Result queryAllScenicListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //数据解封
+        int currentPage,PageSize;
+        currentPage=pageSendMessage.getCurrentPage();
+        PageSize=pageSendMessage.getPageSize();
+        int firstIndex=(currentPage-1)*PageSize;
+        int lastIndex=currentPage*PageSize;
 
+        //实现分页并封装
+        Result result = new Result();
+        List<ScenicArea> ScenicList =this.scenicAreaService.queryAll();
+        if(lastIndex>ScenicList.size()){
+            lastIndex=ScenicList.size();
+        }
+        List<ScenicArea> returnScenicArea =ScenicList.subList(firstIndex,lastIndex);
+        PageMessage pageMessage=new PageMessage();
+        pageMessage.setScenicAreaPageList(returnScenicArea);
+        pageMessage.setTotalResult(ScenicList.size());
+        pageMessage.setTotalPage(ScenicList.size()/PageSize+1);
+        pageMessage.setTotal(lastIndex-firstIndex);
+
+        if(ScenicList != null){
+            result.setData(pageMessage);
+            return Result.success(result.getData());
+        }else{
+            result.setData(currentPage);
+            return Result.success(result.getData());
+        }
+    }
 
 }
 

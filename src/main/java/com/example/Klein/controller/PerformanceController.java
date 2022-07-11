@@ -1,9 +1,8 @@
 package com.example.Klein.controller;
 
-import com.example.Klein.entity.Hotel;
-import com.example.Klein.entity.Nearly;
-import com.example.Klein.entity.Performance;
+import com.example.Klein.entity.*;
 import com.example.Klein.service.PerformanceService;
+import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,6 +114,37 @@ public class PerformanceController {
             result.setData(null);
         }
         return Result.success(result.getData());
+    }
+
+    @PostMapping("/queryAllPerformanceListByPage")
+    public Result queryAllPerformanceListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //数据解封
+        int currentPage,PageSize;
+        currentPage=pageSendMessage.getCurrentPage();
+        PageSize=pageSendMessage.getPageSize();
+        int firstIndex=(currentPage-1)*PageSize;
+        int lastIndex=currentPage*PageSize;
+
+        //实现分页并封装
+        Result result = new Result();
+        List<Performance> performanceList =this.performanceService.queryAll();
+        if(lastIndex>performanceList.size()){
+            lastIndex=performanceList.size();
+        }
+        List<Performance> returnPerformanceList =performanceList.subList(firstIndex,lastIndex);
+        PageMessage pageMessage=new PageMessage();
+        pageMessage.setPerformancePageList(returnPerformanceList);
+        pageMessage.setTotalResult(performanceList.size());
+        pageMessage.setTotalPage(performanceList.size()/PageSize+1);
+        pageMessage.setTotal(lastIndex-firstIndex);
+
+        if(performanceList != null){
+            result.setData(pageMessage);
+            return Result.success(result.getData());
+        }else{
+            result.setData(currentPage);
+            return Result.success(result.getData());
+        }
     }
 }
 

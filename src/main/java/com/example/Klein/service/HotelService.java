@@ -68,4 +68,6 @@ public interface HotelService {
     List<Hotel> queryHotelListByStarLevel(int starLevel);
 
     List<Hotel> queryAll();
+
+    List<Hotel> queryHotelListByAdminId(Long AdministratorId);
 }

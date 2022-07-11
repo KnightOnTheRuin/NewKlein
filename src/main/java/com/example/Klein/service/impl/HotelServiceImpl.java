@@ -108,4 +108,9 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> queryAll(){
         return this.hotelDao.queryAll();
     }
+
+    @Override
+    public List<Hotel> queryHotelListByAdminId(Long AdministratorId) {
+        return this.hotelDao.queryHotelByAdministratorId(AdministratorId);
+    }
 }
