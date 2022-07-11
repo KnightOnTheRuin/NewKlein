@@ -1,6 +1,7 @@
 package com.example.Klein.dao;
 
 import com.example.Klein.entity.ScenicArea;
+import com.example.Klein.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -90,5 +91,7 @@ public interface ScenicAreaDao {
      * @return 实例对象
      */
     List<ScenicArea> queryScenicAreaNearHotel(Long hotelId);
+
+    List<ScenicArea> queryAll();
 }
 

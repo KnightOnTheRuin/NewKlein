@@ -2,6 +2,7 @@ package com.example.Klein.dao;
 
 import com.example.Klein.entity.Hotel;
 import com.example.Klein.entity.Management;
+import com.example.Klein.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public interface ManagementDao {
      */
     Hotel queryHotelByHotelId(Long hotelId);
 
-
+    List<Management> queryAll();
 
 }
 

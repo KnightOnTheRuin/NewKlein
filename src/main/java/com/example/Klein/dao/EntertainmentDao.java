@@ -1,6 +1,7 @@
 package com.example.Klein.dao;
 
 import com.example.Klein.entity.Entertainment;
+import com.example.Klein.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -84,6 +85,8 @@ public interface EntertainmentDao {
      * @return 实例对象
      */
     List<Entertainment> queryEntertainmentByScenicAreaName(String scenicAreaName);
+
+    List<Entertainment> queryAll();
 
 }
 

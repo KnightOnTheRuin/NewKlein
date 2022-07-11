@@ -1,6 +1,7 @@
 package com.example.Klein.dao;
 
 import com.example.Klein.entity.Nearly;
+import com.example.Klein.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -68,5 +69,6 @@ public interface NearlyDao {
      */
     int deleteById(Long nearlyId);
 
+    List<Nearly> queryAll();
 }
 

@@ -1,6 +1,7 @@
 package com.example.Klein.dao;
 
 import com.example.Klein.entity.RoomOrder;
+import com.example.Klein.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -81,5 +82,7 @@ public interface RoomOrderDao {
      * @return 实例对象
      */
     List<RoomOrder> queryOrderByVisitorId(Long visitorId);
+
+    List<RoomOrder> queryAll();
 }
 

@@ -1,6 +1,7 @@
 package com.example.Klein.dao;
 
 import com.example.Klein.entity.Performance;
+import com.example.Klein.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -79,5 +80,7 @@ public interface PerformanceDao {
      * @return 实例对象
      */
     List<Performance> queryPerformanceByScenicAreaName(String scenicAreaName);
+
+    List<Performance> queryAll();
 }
 
