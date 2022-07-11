@@ -173,5 +173,17 @@
         from hotel,nearly
         where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId}
     </select>
+    <!--查找景区附近星级酒店-->
+    <select id="queryStarHotelNearScenicArea" resultMap="BaseResultMap">
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel,nearly
+        where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId} and hotel.star_Level!=0
+    </select>
+    <!--查找景区附近星级酒店-->
+    <select id="queryNoStarHotelNearScenicArea" resultMap="BaseResultMap">
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel,nearly
+        where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId} and hotel.star_Level=0
+    </select>
 </mapper>
 

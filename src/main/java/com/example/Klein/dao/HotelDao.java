@@ -95,5 +95,21 @@ public interface HotelDao {
      * @return 实例对象
      */
     List<Hotel> queryHotelNearScenicArea(Long ScenicAreaId);
+
+    /**
+     * 查找某个景区附近的星级酒店
+     *
+     * @param ScenicAreaId 非主键
+     * @return 实例对象
+     */
+    List<Hotel> queryStarHotelNearScenicArea(Long ScenicAreaId);
+
+    /**
+     * 查找某个景区附近的非星级酒店
+     *
+     * @param ScenicAreaId 非主键
+     * @return 实例对象
+     */
+    List<Hotel> queryNoStarHotelNearScenicArea(Long ScenicAreaId);
 }
 
