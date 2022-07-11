@@ -81,11 +81,19 @@ public interface UserDao {
     /**
      * 通过电话查询人
      *
-     * @param phoneNumber 主键
+     * @param phoneNumber 非主键
      * @return 实例对象
      */
     User queryUserByPhoneNumber(String phoneNumber);
 
     List<User> queryAll();
+
+    /**
+     * 通过酒店Id查找其管理员
+     *
+     * @param hotelId 非主键
+     * @return 实例对象
+     */
+    User queryAdministratorByHotelId(long hotelId);
  }
 

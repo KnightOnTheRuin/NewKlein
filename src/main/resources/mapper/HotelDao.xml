@@ -185,5 +185,11 @@
         from hotel,nearly
         where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId} and hotel.star_Level=0
     </select>
+    <!--某个酒店管理员管理的所有酒店-->
+    <select id="queryHotelByAdministratorId" resultMap="BaseResultMap">
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        from hotel,management
+        where management.administrator_Id=#{Administrator} and management.hotel_Id=hotel.hotel_Id
+    </select>
 </mapper>
 

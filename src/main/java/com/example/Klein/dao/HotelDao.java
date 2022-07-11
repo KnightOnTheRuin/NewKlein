@@ -113,5 +113,13 @@ public interface HotelDao {
     List<Hotel> queryNoStarHotelNearScenicArea(Long ScenicAreaId);
 
     List<Hotel> queryAll();
+
+    /**
+     * 根据管理员查找其管理的所有酒店
+     *
+     * @param Administrator 非主键
+     * @return 实例对象
+     */
+    List<Hotel> queryHotelByAdministratorId(Long Administrator);
 }
 

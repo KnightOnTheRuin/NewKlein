@@ -142,12 +142,19 @@
         from user
         where phone_Number=#{param1,jdbcType=VARCHAR} and password=#{param2,jdbcType=VARCHAR}
     </select>
-
+    <!--通过电话找本人-->
     <select id="queryUserByPhoneNumber" resultMap="BaseResultMap">
         select
             user_Id, name, phone_Number, password, is_Admin, Icon
         from user
         where phone_Number=#{phoneNumber}
+    </select>
+    <!--通过酒店Id查找其管理员-->
+    <select id="queryAdministratorByHotelId" resultMap="BaseResultMap">
+        select
+            user_Id, name, phone_Number, password, is_Admin, Icon
+        from user,management
+        where management.hotel_Id=#{hotelId} and management.administrator_Id=user.user_Id
     </select>
 </mapper>
 
