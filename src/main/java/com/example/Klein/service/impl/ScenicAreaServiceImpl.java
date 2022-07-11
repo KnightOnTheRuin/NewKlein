@@ -82,4 +82,9 @@ public class ScenicAreaServiceImpl implements ScenicAreaService {
     public List<ScenicArea> queryScenicListAreaNearHotel(Long hotelId) {
         return this.scenicAreaDao.queryScenicAreaNearHotel(hotelId);
     }
+
+    @Override
+    public List<ScenicArea> queryAll(){
+        return this.scenicAreaDao.queryAll();
+    }
 }

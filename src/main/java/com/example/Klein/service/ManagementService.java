@@ -2,6 +2,8 @@ package com.example.Klein.service;
 
 import com.example.Klein.entity.Management;
 
+import java.util.List;
+
 /**
  * 酒店管理员管理酒店关系表(Management)表服务接口
  *
@@ -43,6 +45,6 @@ public interface ManagementService {
      */
     boolean deleteById(Long managementId);
 
-
+    List<Management> queryAll();
 
 }

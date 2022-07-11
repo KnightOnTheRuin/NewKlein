@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 景区附近的酒店关系表(Nearly)表服务实现类
@@ -70,5 +71,10 @@ public class NearlyServiceImpl implements NearlyService {
     @Override
     public Long count(Nearly nearly) {
         return this.nearlyDao.count(nearly);
+    }
+
+    @Override
+    public List<Nearly> queryAll(){
+        return this.nearlyDao.queryAll();
     }
 }

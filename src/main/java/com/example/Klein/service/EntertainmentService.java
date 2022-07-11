@@ -57,4 +57,6 @@ public interface EntertainmentService {
 
     Long countByConditions(Entertainment entertainment);
 
+    List<Entertainment> queryAll();
+
 }

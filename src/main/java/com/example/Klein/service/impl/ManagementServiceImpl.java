@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 酒店管理员管理酒店关系表(Management)表服务实现类
@@ -65,5 +66,10 @@ public class ManagementServiceImpl implements ManagementService {
     @Override
     public boolean deleteById(Long managementId) {
         return this.managementDao.deleteById(managementId) > 0;
+    }
+
+    @Override
+    public List<Management> queryAll(){
+        return this.managementDao.queryAll();
     }
 }

@@ -52,4 +52,6 @@ public interface ScenicAreaService {
 
     //通过酒店ID搜索附近景区列表
     List<ScenicArea> queryScenicListAreaNearHotel(Long hotelId);
+
+    List<ScenicArea> queryAll();
 }

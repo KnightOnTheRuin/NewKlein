@@ -103,4 +103,9 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> queryHotelListByStarLevel(int starLevel) {
         return this.hotelDao.queryHotelByStarLevel(starLevel);
     }
+
+    @Override
+    public List<Hotel> queryAll(){
+        return this.hotelDao.queryAll();
+    }
 }

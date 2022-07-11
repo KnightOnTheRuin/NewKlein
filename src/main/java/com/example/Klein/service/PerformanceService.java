@@ -54,4 +54,6 @@ public interface PerformanceService {
     //通过景区名字查询表演列表
     List<Performance> queryPerformanceListByScenicAreaName(String scenicName);
 
+    List<Performance> queryAll();
+
 }

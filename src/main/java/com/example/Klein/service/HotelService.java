@@ -66,4 +66,6 @@ public interface HotelService {
 
     //通过星级查询所有酒店列表
     List<Hotel> queryHotelListByStarLevel(int starLevel);
+
+    List<Hotel> queryAll();
 }

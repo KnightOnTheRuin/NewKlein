@@ -1,5 +1,6 @@
 package com.example.Klein.service.impl;
 
+import com.example.Klein.entity.Entertainment;
 import com.example.Klein.entity.GuestRoom;
 import com.example.Klein.dao.GuestRoomDao;
 import com.example.Klein.service.GuestRoomService;
@@ -76,5 +77,10 @@ public class GuestRoomServiceImpl implements GuestRoomService {
     @Override
     public List<GuestRoom> queryRoomByHotelId(Long hotelId) {
         return this.guestRoomDao.queryRoomByHotelId(hotelId);
+    }
+
+    @Override
+    public List<GuestRoom> queryAll(){
+        return this.guestRoomDao.queryAll();
     }
 }

@@ -88,4 +88,9 @@ public class EntertainmentServiceImpl implements EntertainmentService {
     public Long countByConditions(Entertainment entertainment) {
         return this.entertainmentDao.count(entertainment);
     }
+
+    @Override
+    public List<Entertainment> queryAll(){
+        return this.entertainmentDao.queryAll();
+    }
 }

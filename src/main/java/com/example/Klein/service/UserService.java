@@ -50,4 +50,5 @@ public interface UserService {
     List<User> queryAll();
 
     User queryByPhoneNumber(String phoneNumber);
+
 }

@@ -82,4 +82,9 @@ public class PerformanceServiceImpl implements PerformanceService {
     public List<Performance> queryPerformanceListByScenicAreaName(String scenicName) {
         return this.performanceDao.queryPerformanceByScenicAreaName(scenicName);
     }
+
+    @Override
+    public List<Performance> queryAll(){
+        return this.performanceDao.queryAll();
+    }
 }

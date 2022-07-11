@@ -50,4 +50,6 @@ public interface GuestRoomService {
 
     List<GuestRoom> queryRoomByHotelId(Long hotelId);
 
+    List<GuestRoom> queryAll();
+
 }

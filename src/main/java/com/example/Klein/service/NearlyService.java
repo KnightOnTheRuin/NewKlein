@@ -1,6 +1,9 @@
 package com.example.Klein.service;
 
 import com.example.Klein.entity.Nearly;
+import org.apache.commons.lang.exception.NestableError;
+
+import java.util.List;
 
 /**
  * 景区附近的酒店关系表(Nearly)表服务接口
@@ -45,5 +48,7 @@ public interface NearlyService {
 
     //通过条件查询附近总数
     Long count(Nearly nearly);
+
+    List<Nearly> queryAll();
 
 }
