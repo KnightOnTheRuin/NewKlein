@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 客房实体表(GuestRoom)表控制层
@@ -105,5 +106,22 @@ public class GuestRoomController {
         }
     }
 
+    @PostMapping("/queryRoomListByHotelId")
+    public Result queryRoomListByHotelId(@RequestBody Long hotelId){
+        Result result = new Result();
+        List<GuestRoom> roomList = this.guestRoomService.queryRoomByHotelId(hotelId);
+        if(roomList != null){
+            result.setData(roomList);
+        }else{
+            result.setData(hotelId);
+        }
+        return Result.success(result.getData());
+    }
+
+    @PostMapping("/CountRoomByCondtion")
+    public Result CountRoomByCondtion(@RequestBody GuestRoom guestRoom){
+        Long count =this.guestRoomService.countByConditions(guestRoom);
+        return  Result.success(200,"查询成功",count);
+    }
 }
 

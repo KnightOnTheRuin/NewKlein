@@ -1,5 +1,6 @@
 package com.example.Klein.service.impl;
 
+import com.example.Klein.entity.GuestRoom;
 import com.example.Klein.entity.Hotel;
 import com.example.Klein.dao.HotelDao;
 import com.example.Klein.service.HotelService;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 酒店实体表(Hotel)表服务实现类
@@ -65,5 +67,20 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public boolean deleteById(Long hotelId) {
         return this.hotelDao.deleteById(hotelId) > 0;
+    }
+
+    @Override
+    public Long countByConditions(Hotel hotel) {
+        return this.hotelDao.count(hotel);
+    }
+
+    @Override
+    public List<Hotel> queryHotelNearScenicArea(Long ScenicAreaId) {
+        return this.hotelDao.queryHotelNearScenicArea(ScenicAreaId);
+    }
+
+    @Override
+    public List<Hotel> queryStarHotel() {
+        return this.hotelDao.queryHotelHaveAnyStar();
     }
 }

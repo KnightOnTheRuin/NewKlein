@@ -1,6 +1,9 @@
 package com.example.Klein.service;
 
+import com.example.Klein.entity.Entertainment;
 import com.example.Klein.entity.GuestRoom;
+
+import java.util.List;
 
 /**
  * 客房实体表(GuestRoom)表服务接口
@@ -42,5 +45,9 @@ public interface GuestRoomService {
      * @return 是否成功
      */
     boolean deleteById(Long roomId);
+
+    Long countByConditions(GuestRoom guestRoom);
+
+    List<GuestRoom> queryRoomByHotelId(Long hotelId);
 
 }

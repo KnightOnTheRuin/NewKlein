@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 客房实体表(GuestRoom)表服务实现类
@@ -65,5 +66,15 @@ public class GuestRoomServiceImpl implements GuestRoomService {
     @Override
     public boolean deleteById(Long roomId) {
         return this.guestRoomDao.deleteById(roomId) > 0;
+    }
+
+    @Override
+    public Long countByConditions(GuestRoom guestRoom) {
+        return  this.guestRoomDao.count(guestRoom);
+    }
+
+    @Override
+    public List<GuestRoom> queryRoomByHotelId(Long hotelId) {
+        return this.guestRoomDao.queryRoomByHotelId(hotelId);
     }
 }

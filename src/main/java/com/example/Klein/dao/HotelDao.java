@@ -27,7 +27,7 @@ public interface HotelDao {
      * @param hotel 查询条件
      * @return 总行数
      */
-    long count(Hotel hotel);
+    Long count(Hotel hotel);
 
     /**
      * 新增数据
@@ -78,14 +78,12 @@ public interface HotelDao {
     List<Hotel> queryHotelByStarLevel(int starLevel);
     /**
      * 查找非星级酒店
-     *
      * @return 实例对象
      */
     List<Hotel> queryHotelHaveNoStar();
 
     /**
      * 查找星级酒店
-     *
      * @return 实例对象
      */
     List<Hotel> queryHotelHaveAnyStar();

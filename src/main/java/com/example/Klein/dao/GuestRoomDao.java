@@ -66,6 +66,7 @@ public interface GuestRoomDao {
      * @param hotelId 主键
      * @return 实例对象
      */
+
     List<GuestRoom> queryRoomByHotelId(Long hotelId);
 }
 

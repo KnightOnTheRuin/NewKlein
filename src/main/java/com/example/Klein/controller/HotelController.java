@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 酒店实体表(Hotel)表控制层
@@ -96,5 +97,38 @@ public class HotelController {
         }
     }
 
+    //通过景区ID搜索附近酒店
+    @PostMapping("/queryHotelListBySceniclId")
+    public Result queryHotelListBySceniclId(@RequestBody Long scenicId){
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryHotelNearScenicArea(scenicId);
+        if(hotelList != null){
+            result.setData(hotelList);
+        }else{
+            result.setData(hotelList);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过条件查找酒店
+    @PostMapping("/CountHotelByCondtion")
+    public Result CountHotelByCondtion(@RequestBody Hotel hotel){
+        Long count =this.hotelService.countByConditions(hotel);
+        return  Result.success(200,"查询成功",count);
+    }
+
+
+    //查找所有星级酒店
+    @PostMapping("/queryAllSatrHotel")
+    public Result queryAllSatrHotel(){
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryStarHotel();
+        if(hotelList != null){
+            result.setData(hotelList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
 }
 
