@@ -2,12 +2,14 @@ package com.example.Klein.controller;
 
 import com.example.Klein.entity.GuestRoom;
 import com.example.Klein.entity.Hotel;
+import com.example.Klein.entity.NewHotel;
 import com.example.Klein.service.HotelService;
 import com.example.Klein.utils.result.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -102,15 +104,24 @@ public class HotelController {
     public Result queryHotelListBySceniclId(@RequestBody Long scenicId){
         Result result = new Result();
         List<Hotel> hotelList = this.hotelService.queryHotelNearScenicArea(scenicId);
-        if(hotelList != null){
-            result.setData(hotelList);
+
+        //hotel转NewHotel
+        List<NewHotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            NewHotel newHotel=new NewHotel(tempHotel);
+            NewHotelList.add(newHotel);
+        }
+
+        if(NewHotelList != null){
+            result.setData(NewHotelList);
         }else{
-            result.setData(hotelList);
+            result.setData(NewHotelList);
         }
         return Result.success(result.getData());
     }
 
-    //通过条件查找酒店
+    //通过条件查找酒店总数
     @PostMapping("/CountHotelByCondtion")
     public Result CountHotelByCondtion(@RequestBody Hotel hotel){
         Long count =this.hotelService.countByConditions(hotel);
@@ -119,8 +130,8 @@ public class HotelController {
 
 
     //查找所有星级酒店
-    @PostMapping("/queryAllSatrHotel")
-    public Result queryAllSatrHotel(){
+    @PostMapping("/queryAllStarHotel")
+    public Result queryAllStarHotel(){
         Result result = new Result();
         List<Hotel> hotelList = this.hotelService.queryStarHotel();
         if(hotelList != null){
@@ -130,5 +141,77 @@ public class HotelController {
         }
         return Result.success(result.getData());
     }
+
+    //查找所有非星级酒店
+    @PostMapping("/queryAllNoneStarHotel")
+    public Result queryAllNoneStarHotel(){
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryNoneStarHotel();
+        if(hotelList != null){
+            result.setData(hotelList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过星级查找酒店
+    @PostMapping("/queryAllPreciseStarHotelByExactStarLevel")
+    public Result queryAllPreciseStarHotelByExactStarLevel(@RequestBody int StarLevel){
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryHotelListByStarLevel(StarLevel);
+
+        if(hotelList != null){
+            result.setData(hotelList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过景区Id查找景区的星级酒店
+    @PostMapping("/queryStarHotelByScenicId")
+    public Result queryStarHotelByScenicId(@RequestBody Long scenicId){
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryStarHotelBySceniceId(scenicId);
+
+        //hotel转NewHotel
+        List<NewHotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            NewHotel newHotel=new NewHotel(tempHotel);
+            NewHotelList.add(newHotel);
+        }
+
+        if(NewHotelList != null){
+            result.setData(NewHotelList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过景区Id查找景区的非星级酒店
+    @PostMapping("/queryNoneStarHotelByScenicId")
+    public Result queryNoneStarHotelByScenicId(@RequestBody Long scenicId){
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryNoneStarHotelBySceniceId(scenicId);
+
+        //hotel转NewHotel
+        List<NewHotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            NewHotel newHotel=new NewHotel(tempHotel);
+            NewHotelList.add(newHotel);
+        }
+
+        if(NewHotelList != null){
+            result.setData(NewHotelList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
 }
 

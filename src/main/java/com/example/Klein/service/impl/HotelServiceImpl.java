@@ -80,7 +80,27 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public List<Hotel> queryStarHotelBySceniceId(Long ScenicAreaId) {
+        return this.hotelDao.queryStarHotelNearScenicArea(ScenicAreaId);
+    }
+
+    @Override
+    public List<Hotel> queryNoneStarHotelBySceniceId(Long ScenicAreaId) {
+        return this.hotelDao.queryNoStarHotelNearScenicArea(ScenicAreaId);
+    }
+
+    @Override
     public List<Hotel> queryStarHotel() {
         return this.hotelDao.queryHotelHaveAnyStar();
+    }
+
+    @Override
+    public List<Hotel> queryNoneStarHotel() {
+        return this.hotelDao.queryHotelHaveNoStar();
+    }
+
+    @Override
+    public List<Hotel> queryHotelListByStarLevel(int starLevel) {
+        return this.hotelDao.queryHotelByStarLevel(starLevel);
     }
 }

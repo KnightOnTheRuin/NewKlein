@@ -1,11 +1,14 @@
 package com.example.Klein.controller;
 
+import com.example.Klein.entity.Hotel;
+import com.example.Klein.entity.Nearly;
 import com.example.Klein.entity.Performance;
 import com.example.Klein.service.PerformanceService;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 演出实体表(Performance)表控制层
@@ -78,6 +81,40 @@ public class PerformanceController {
         }else{
             return Result.fail(400,"删除失败",null);
         }
+    }
+
+    //通过条件计数Performance总数
+    @PostMapping("/CountPerformanceByConditions")
+    public Result CountPerformanceByConditions(@RequestBody Performance performance){
+        Long count =this.performanceService.CountByConditions(performance);
+        return  Result.success(200,"查询成功",count);
+    }
+
+    //通过景区ID查找Performance表单
+    @PostMapping("/queryPerformanceListByScenicId")
+    public Result queryPerformanceListByScenicId(@RequestBody Long ScenicId){
+        Result result = new Result();
+        List<Performance> performanceList = this.performanceService.queryPerformanceListByScenicAreaId(ScenicId);
+        if(performanceList != null){
+            result.setData(performanceList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过景区ID查找Performance表单
+    @PostMapping("/queryPerformanceListByScenicName")
+    public Result queryPerformanceListByScenicName(@RequestBody String scenicName){
+        scenicName=scenicName.replace("\"","");
+        Result result = new Result();
+        List<Performance> performanceList = this.performanceService.queryPerformanceListByScenicAreaName(scenicName);
+        if(performanceList != null){
+            result.setData(performanceList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
     }
 }
 

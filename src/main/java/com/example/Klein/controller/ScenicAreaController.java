@@ -1,5 +1,6 @@
 package com.example.Klein.controller;
 
+import com.example.Klein.entity.RoomOrder;
 import com.example.Klein.entity.ScenicArea;
 import com.example.Klein.service.ScenicAreaService;
 import com.example.Klein.utils.result.Result;
@@ -25,7 +26,6 @@ public class ScenicAreaController {
 
     /**
      * 通过主键查询单条数据
-     *
      * @param id 主键
      * @return 单条数据
      */
@@ -36,7 +36,6 @@ public class ScenicAreaController {
 
     /**
      * 新增数据
-     *
      * @param scenicArea 实体
      * @return 新增结果
      */
@@ -52,7 +51,6 @@ public class ScenicAreaController {
 
     /**
      * 编辑数据
-     *
      * @param scenicArea 实体
      * @return 编辑结果
      */
@@ -70,7 +68,6 @@ public class ScenicAreaController {
 
     /**
      * 删除数据
-     *
      * @param id 主键
      * @return 删除是否成功
      */
@@ -104,6 +101,19 @@ public class ScenicAreaController {
     @PostMapping("/querySAByName")
     public Result querySAByName(@RequestBody String name){
         return Result.success(this.scenicAreaService.queryByName(name));
+    }
+
+    //通过酒店ID查找景区列表
+    @PostMapping("/queryScenicListByHotelId")
+    public Result queryScenicListByHotelId(@RequestBody Long hotelId){
+        Result result = new Result();
+        List<ScenicArea> scenicAreaList = this.scenicAreaService.queryScenicListAreaNearHotel(hotelId);
+        if(scenicAreaList != null){
+            result.setData(scenicAreaList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
     }
 
 

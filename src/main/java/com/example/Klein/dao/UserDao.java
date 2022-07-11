@@ -27,7 +27,7 @@ public interface UserDao {
      * @param user 查询条件
      * @return 总行数
      */
-    long count(User user);
+    Long count(User user);
 
     /**
      * 新增数据

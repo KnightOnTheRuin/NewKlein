@@ -43,4 +43,7 @@ public interface NearlyService {
      */
     boolean deleteById(Long nearlyId);
 
+    //通过条件查询附近总数
+    Long count(Nearly nearly);
+
 }

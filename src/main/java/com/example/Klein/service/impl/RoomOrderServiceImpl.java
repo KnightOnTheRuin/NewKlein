@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 订单实体表(RoomOrder)表服务实现类
@@ -65,5 +66,20 @@ public class RoomOrderServiceImpl implements RoomOrderService {
     @Override
     public boolean deleteById(Long orderId) {
         return this.roomOrderDao.deleteById(orderId) > 0;
+    }
+
+    @Override
+    public Long CountByConditions(RoomOrder roomOrder) {
+        return this.roomOrderDao.count(roomOrder);
+    }
+
+    @Override
+    public List<RoomOrder> queryOrderListByAdminId(Long adminId) {
+        return this.roomOrderDao.queryOrderByAdminId(adminId);
+    }
+
+    @Override
+    public List<RoomOrder> queryOrderListByVisitorId(Long visitorId) {
+        return this.roomOrderDao.queryOrderByVisitorId(visitorId);
     }
 }

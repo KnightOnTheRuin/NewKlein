@@ -72,7 +72,6 @@ public interface ManagementDao {
 
     /**
      * 通过hotel_Id返回hotel对象
-     *
      * @param hotelId 主键
      * @return 实例对象
      */

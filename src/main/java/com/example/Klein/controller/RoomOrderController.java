@@ -1,15 +1,16 @@
 package com.example.Klein.controller;
 
+import com.example.Klein.entity.Performance;
 import com.example.Klein.entity.RoomOrder;
 import com.example.Klein.service.RoomOrderService;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 订单实体表(RoomOrder)表控制层
- *
  * @author makejava
  * @since 2022-07-10 13:45:03
  */
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
 @RequestMapping("roomOrder")
 public class RoomOrderController {
     /**
-     * 服务对象
+     *服务对象
      */
     @Resource
     private RoomOrderService roomOrderService;
@@ -79,6 +80,39 @@ public class RoomOrderController {
         }else{
             return Result.fail(400,"删除失败",null);
         }
+    }
+
+    //通过条件计数订单总数
+    @PostMapping("/CountRoomOrderByConditions")
+    public Result CountRoomOrderByConditions(@RequestBody RoomOrder roomOrder){
+        Long count =this.roomOrderService.CountByConditions(roomOrder);
+        return  Result.success(200,"查询成功",count);
+    }
+
+    //通过管理员ID查找订单列表
+    @PostMapping("/queryOrderListByAdminId")
+    public Result queryOrderListByAdminId(@RequestBody Long adminId){
+        Result result = new Result();
+        List<RoomOrder> roomOrderList = this.roomOrderService.queryOrderListByAdminId(adminId);
+        if(roomOrderList != null){
+            result.setData(roomOrderList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过游客ID查找订单列表
+    @PostMapping("/queryOrderListByVisitorId")
+    public Result queryOrderListByVisitorId(@RequestBody Long visitorId){
+        Result result = new Result();
+        List<RoomOrder> roomOrderList = this.roomOrderService.queryOrderListByVisitorId(visitorId);
+        if(roomOrderList != null){
+            result.setData(roomOrderList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
     }
 
 }

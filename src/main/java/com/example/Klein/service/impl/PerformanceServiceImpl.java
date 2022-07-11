@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 演出实体表(Performance)表服务实现类
@@ -64,5 +65,21 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     public boolean deleteById(Long performanceId) {
         return this.performanceDao.deleteById(performanceId) > 0;
+    }
+
+    @Override
+    public Long CountByConditions(Performance performance) {
+        return this.performanceDao.count(performance);
+    }
+
+    @Override
+    public List<Performance> queryPerformanceListByScenicAreaId(Long scenicAreaId) {
+        return this.performanceDao.queryPerformanceByScenicAreaId(scenicAreaId);
+
+    }
+
+    @Override
+    public List<Performance> queryPerformanceListByScenicAreaName(String scenicName) {
+        return this.performanceDao.queryPerformanceByScenicAreaName(scenicName);
     }
 }

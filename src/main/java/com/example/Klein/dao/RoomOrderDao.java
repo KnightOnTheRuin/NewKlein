@@ -26,7 +26,7 @@ public interface RoomOrderDao {
      * @param roomOrder 查询条件
      * @return 总行数
      */
-    long count(RoomOrder roomOrder);
+    Long count(RoomOrder roomOrder);
 
     /**
      * 新增数据
@@ -63,7 +63,6 @@ public interface RoomOrderDao {
 
     /**
      * 通过主键删除数据
-     *
      * @param orderId 主键
      * @return 影响行数
      */
@@ -78,7 +77,6 @@ public interface RoomOrderDao {
     List<RoomOrder> queryOrderByAdminId(Long adminId);
     /**
      * 通过游客Id查找到当前游客的所有订单
-     *
      * @param visitorId 主键
      * @return 实例对象
      */

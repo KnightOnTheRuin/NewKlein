@@ -77,4 +77,9 @@ public class ScenicAreaServiceImpl implements ScenicAreaService {
     public List<ScenicArea> dimQueryByName(String dimNamein) {
         return this.scenicAreaDao.queryByDimName(dimNamein);
     }
+
+    @Override
+    public List<ScenicArea> queryScenicListAreaNearHotel(Long hotelId) {
+        return this.scenicAreaDao.queryScenicAreaNearHotel(hotelId);
+    }
 }

@@ -26,7 +26,7 @@ public interface NearlyDao {
      * @param nearly 查询条件
      * @return 总行数
      */
-    long count(Nearly nearly);
+    Long count(Nearly nearly);
 
     /**
      * 新增数据
@@ -63,7 +63,6 @@ public interface NearlyDao {
 
     /**
      * 通过主键删除数据
-     *
      * @param nearlyId 主键
      * @return 影响行数
      */

@@ -1,6 +1,9 @@
 package com.example.Klein.service;
 
+import com.example.Klein.entity.Performance;
 import com.example.Klein.entity.RoomOrder;
+
+import java.util.List;
 
 /**
  * 订单实体表(RoomOrder)表服务接口
@@ -41,5 +44,14 @@ public interface RoomOrderService {
      * @return 是否成功
      */
     boolean deleteById(Long orderId);
+
+    //通过条件统计订单
+    Long CountByConditions(RoomOrder roomOrder);
+
+    //通过管理员ID查询订单列表
+    List<RoomOrder> queryOrderListByAdminId(Long adminId);
+
+    //通过游客ID查询订单列表
+    List<RoomOrder> queryOrderListByVisitorId(Long visitorId);
 
 }

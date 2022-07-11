@@ -49,8 +49,21 @@ public interface HotelService {
     //依据不同的(Hotel属性)条件查询Hotel总数
     Long countByConditions(Hotel hotel);
 
+    //通过景区ID查询酒店
     List<Hotel> queryHotelNearScenicArea(Long ScenicAreaId);
 
+    //通过景区ID查询附近星级酒店
+    List<Hotel> queryStarHotelBySceniceId(Long ScenicAreaId);
+
+    //通过景区ID查询非星级酒店
+    List<Hotel> queryNoneStarHotelBySceniceId(Long ScenicAreaId);
+
+    //查询所有星级酒店
     List<Hotel> queryStarHotel();
 
+    //查询所有非星级酒店
+    List<Hotel> queryNoneStarHotel();
+
+    //通过星级查询所有酒店列表
+    List<Hotel> queryHotelListByStarLevel(int starLevel);
 }

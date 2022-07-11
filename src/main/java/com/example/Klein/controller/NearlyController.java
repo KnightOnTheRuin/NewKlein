@@ -1,5 +1,6 @@
 package com.example.Klein.controller;
 
+import com.example.Klein.entity.Hotel;
 import com.example.Klein.entity.Nearly;
 import com.example.Klein.service.NearlyService;
 import com.example.Klein.utils.result.Result;
@@ -84,6 +85,13 @@ public class NearlyController {
             return Result.fail(400,"删除失败",null);
         }
     }
+    //通过条件计数Nearly总数
+    @PostMapping("/CountNearlyByConditions")
+    public Result CountNearlyByConditions(@RequestBody Nearly nearly){
+        Long count =this.nearlyService.count(nearly);
+        return  Result.success(200,"查询成功",count);
+    }
+
 
 }
 

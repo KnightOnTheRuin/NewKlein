@@ -66,4 +66,9 @@ public class NearlyServiceImpl implements NearlyService {
     public boolean deleteById(Long nearlyId) {
         return this.nearlyDao.deleteById(nearlyId) > 0;
     }
+
+    @Override
+    public Long count(Nearly nearly) {
+        return this.nearlyDao.count(nearly);
+    }
 }

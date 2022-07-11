@@ -26,7 +26,7 @@ public interface ScenicAreaDao {
      * @param scenicArea 查询条件
      * @return 总行数
      */
-    long count(ScenicArea scenicArea);
+    Long count(ScenicArea scenicArea);
 
     /**
      * 新增数据
@@ -86,7 +86,6 @@ public interface ScenicAreaDao {
 
     /**
      * 通过酒店Id查找附近景区
-     *
      * @param hotelId 非主键
      * @return 实例对象
      */

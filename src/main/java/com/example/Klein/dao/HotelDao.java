@@ -98,7 +98,6 @@ public interface HotelDao {
 
     /**
      * 查找某个景区附近的星级酒店
-     *
      * @param ScenicAreaId 非主键
      * @return 实例对象
      */

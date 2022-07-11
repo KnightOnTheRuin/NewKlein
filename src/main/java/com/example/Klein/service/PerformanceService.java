@@ -2,6 +2,8 @@ package com.example.Klein.service;
 
 import com.example.Klein.entity.Performance;
 
+import java.util.List;
+
 /**
  * 演出实体表(Performance)表服务接口
  *
@@ -42,5 +44,14 @@ public interface PerformanceService {
      * @return 是否成功
      */
     boolean deleteById(Long performanceId);
+
+    //通过条件统计表演总数
+    Long CountByConditions(Performance performance);
+
+    //通过景区ID查询表演列表
+    List<Performance> queryPerformanceListByScenicAreaId(Long scenicAreaId);
+
+    //通过景区名字查询表演列表
+    List<Performance> queryPerformanceListByScenicAreaName(String scenicName);
 
 }

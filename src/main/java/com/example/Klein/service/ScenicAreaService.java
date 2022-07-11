@@ -44,7 +44,12 @@ public interface ScenicAreaService {
      */
     boolean deleteById(Long scenicAreaId);
 
+    //通过名字模糊搜索景区
     ScenicArea queryByName(String name);
 
+    //通过名字精确搜索景区
     List<ScenicArea> dimQueryByName(String dimNamein);
+
+    //通过酒店ID搜索附近景区列表
+    List<ScenicArea> queryScenicListAreaNearHotel(Long hotelId);
 }
