@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * 用户实体表，isAdmin为真，是管理员，为假，是普通游客，电话号码唯一(User)表控制层
- *
  * @author makejava
  * @since 2022-07-10 13:46:05
  */
@@ -31,7 +30,7 @@ public class UserController {
      * @param userId 主键
      * @return 单条数据
      */
-    @GetMapping("/queryById")
+    @PostMapping("/queryById")
     public Result queryById(@RequestBody long userId){
         return Result.success(this.userService.queryById(userId));
     }
@@ -78,6 +77,10 @@ public class UserController {
     @PostMapping("/userRegister")
     public Result userRegister(@RequestBody User user){
         try{
+
+            if(user.getUserId()!=null){
+                return Result.fail(400,"主键不允许自定义增加",user);
+            }
             User _user =  this.userService.insert(user);
             return Result.success(200,"注册成功",_user);
         }catch (Exception e){
@@ -100,6 +103,10 @@ public class UserController {
      */
     @PostMapping("/updateUser")
     public Result updateUser(@RequestBody User user) {
+
+        if(user.getUserId()==null){
+            return Result.fail(400,"必须经过主键进行更新但主键为空",null);
+        }
         User _user = this.userService.update(user);
         if(_user == null){
             return Result.fail(400,"更新失败",null);
@@ -110,12 +117,16 @@ public class UserController {
 
     /**
      * 删除数据
-     *
      * @param userId 主键
      * @return 删除是否成功
      */
     @PostMapping("/deleteUserById")
     public Result deleteById(@RequestBody Long userId) {
+        User user=this.userService.queryById(userId);
+        if(user.getUserId()==null){
+            return Result.fail(400,"主键Id对应的数据不存在",null);
+        }
+
         boolean mark = this.userService.deleteById(userId);
         if(mark){
             return Result.success(200,"删除成功",null);

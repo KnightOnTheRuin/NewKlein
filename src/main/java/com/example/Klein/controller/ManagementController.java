@@ -83,7 +83,24 @@ public class ManagementController {
      */
     @PostMapping("/ManagementUpdate")
     public Result ManagementUpdate(@RequestBody Management management) {
-        return Result.fail(400,"此表无法修改",null);
+        if(management.getManagementId()==null){
+            return Result.fail(400,"必须经过主键进行更新但主键为空",null);
+        }
+        Hotel TestHotel=this.hotelService.queryById(management.getHotelId());
+        if(TestHotel==null){
+            return Result.fail(400,"Hotel表中无此主键ID对应的数据",null);
+        }
+        User TestUser=this.userService.queryById(management.getAdministratorId());
+        if(TestHotel==null){
+            return Result.fail(400,"User表中无此主键ID对应的数据",null);
+        }
+        Management _management=this.managementService.update(management);
+        if (_management != null) {
+            return Result.success(200, "更新成功", _management);
+        } else {
+            return Result.fail(400, "更新失败", null);
+        }
+
     }
 
     /**
@@ -96,7 +113,7 @@ public class ManagementController {
     public Result deleteManagementById(@RequestBody Long managementId) {
         Management _management=this.managementService.queryById(managementId);
         if(_management==null){
-            return Result.fail(400,"数据库不存在ID对应的列",null);
+            return Result.fail(400,"数据库不存在managementID对应的列",null);
         }
         boolean mark = this.managementService.deleteById(managementId);
         if(mark){

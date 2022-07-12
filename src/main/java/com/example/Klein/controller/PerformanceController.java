@@ -2,6 +2,7 @@ package com.example.Klein.controller;
 
 import com.example.Klein.entity.*;
 import com.example.Klein.service.PerformanceService;
+import com.example.Klein.service.ScenicAreaService;
 import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,16 @@ public class PerformanceController {
     @Resource
     private PerformanceService performanceService;
 
+    @Resource
+    private ScenicAreaService scenicAreaService;
+
     /**
      * 通过主键查询单条数据
      *
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("/queryPFMCById")
+    @PostMapping("/queryPFMCById")
     public Result queryPFMCById(@RequestBody Long id) {
         return Result.success(this.performanceService.queryById(id));
     }
@@ -45,7 +49,21 @@ public class PerformanceController {
     @PostMapping("/addPFMC")
     public Result addPFMC(@RequestBody Performance performance) {
         try{
-            Performance _performance =  this.performanceService.insert(performance);
+
+            if(performance.getPerformanceId()!=null){
+                return Result.fail(400,"主键不允许自定义增加",performance);
+            }
+            if(performance.getScenicAreaId()==null){
+                return Result.fail(400,"增加对象时ScenicArea外键不允许为空",performance);
+            }
+            ScenicArea TestscenicArea=this.scenicAreaService.queryById(performance.getScenicAreaId());
+
+            if (TestscenicArea==null){
+                return Result.fail(400,"外键ScenicAreaId在表中不存在",performance);
+            }
+
+            //正式添加
+            Performance _performance=this.performanceService.insert(performance);
             return Result.success(200,"添加成功",_performance);
         }catch (Exception e){
             return Result.fail(402,"添加失败",null);
@@ -57,13 +75,25 @@ public class PerformanceController {
      * @param performance 实体
      * @return 编辑结果
      */
-    @PutMapping("/editPFMC")
+    @PostMapping("/editPFMC")
     public Result editPFMC(@RequestBody Performance performance) {
-        Performance _performance = this.performanceService.update(performance);
-        if(_performance != null){
-            return Result.success(200,"更新成功",_performance);
-        }else{
-            return Result.fail(400,"更新失败",null);
+
+        if(performance.getPerformanceId()==null){
+            return Result.fail(400,"必须经过主键进行更新但主键为空",null);
+        }
+        Performance TestPerformance=this.performanceService.queryById(performance.getPerformanceId());
+        if(TestPerformance==null){
+            return Result.fail(400,"Performance表中无此主键ID对应的数据",null);
+        }
+        ScenicArea scenicArea=this.scenicAreaService.queryById(performance.getScenicAreaId());
+        if(scenicArea==null){
+            return Result.fail(400,"外键在scenicArea表中无对应的数据",null);
+        }
+        Performance _performance=this.performanceService.update(performance);
+        if (_performance != null) {
+            return Result.success(200, "更新成功", _performance);
+        } else {
+            return Result.fail(400, "更新失败", null);
         }
     }
     /**
@@ -74,6 +104,10 @@ public class PerformanceController {
      */
     @PostMapping("/deletePFMCById")
     public Result deletePFMCById(@RequestBody Long id) {
+        Performance performance=this.performanceService.queryById(id);
+        if(performance==null){
+            return Result.fail(400,"Id对应的实体在表中不存在",id);
+        }
         boolean mark = this.performanceService.deleteById(id);
         if(mark) {
             return Result.success(this.performanceService.deleteById(id));

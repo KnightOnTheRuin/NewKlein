@@ -1,9 +1,6 @@
 package com.example.Klein.controller;
 
-import com.example.Klein.entity.Entertainment;
-import com.example.Klein.entity.PageSendMessage;
-import com.example.Klein.entity.RoomOrder;
-import com.example.Klein.entity.ScenicArea;
+import com.example.Klein.entity.*;
 import com.example.Klein.service.ScenicAreaService;
 import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
@@ -32,7 +29,7 @@ public class ScenicAreaController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("/querySAById")
+    @PostMapping("/querySAById")
     public Result querySAById(@RequestBody Long id) {
         return Result.success(this.scenicAreaService.queryById(id));
     }
@@ -45,6 +42,10 @@ public class ScenicAreaController {
     @PostMapping("/addSA")
     public Result addSA(@RequestBody ScenicArea scenicArea) {
         try{
+
+            if(scenicArea.getScenicAreaId()!=null){
+                return Result.fail(400,"主键不允许自定义增加",scenicArea);
+            }
             ScenicArea sa =  this.scenicAreaService.insert(scenicArea);
             return Result.success(200,"添加成功",sa);
         }catch (Exception e){
@@ -57,11 +58,14 @@ public class ScenicAreaController {
      * @param scenicArea 实体
      * @return 编辑结果
      */
-    @PutMapping("/editSA")
+    @PostMapping("/editSA")
     public Result editSA(@RequestBody ScenicArea scenicArea) {
-        ScenicArea sa = this.scenicAreaService.update(scenicArea);
-        if(sa != null){
-            return Result.success(200,"更新成功",sa);
+        if(scenicArea.getScenicAreaId()==null){
+            return Result.fail(400,"必须经过主键进行更新但主键为空",null);
+        }
+        ScenicArea _scenicArea = this.scenicAreaService.update(scenicArea);
+        if(_scenicArea != null){
+            return Result.success(200,"更新成功",_scenicArea);
         }else{
             return Result.fail(400,"更新失败",null);
         }
@@ -76,6 +80,10 @@ public class ScenicAreaController {
      */
     @PostMapping("/deleteSAById")
     public Result deleteSAById(@RequestBody Long id) {
+        ScenicArea scenicArea=this.scenicAreaService.queryById(id);
+        if(scenicArea.getScenicAreaId()==null){
+            return Result.fail(400,"主键对应数据为空",null);
+        }
         boolean mark = this.scenicAreaService.deleteById(id);
         if(mark){
             return Result.success(200,"删除成功",null);

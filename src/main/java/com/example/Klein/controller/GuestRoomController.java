@@ -2,6 +2,7 @@ package com.example.Klein.controller;
 
 import com.example.Klein.entity.*;
 import com.example.Klein.service.GuestRoomService;
+import com.example.Klein.service.HotelService;
 import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ public class GuestRoomController {
     @Resource
     private GuestRoomService guestRoomService;
 
+    @Resource
+    private HotelService hotelService;
+
     /**
      * 通过主键查询单条数据
      * @param GuestRoomId 主键
@@ -47,10 +51,6 @@ public class GuestRoomController {
         }
         if(guestRoom.getHotelId()==null){
             return Result.fail(400,"增加对象时外键不允许为空",guestRoom);
-        }
-            GuestRoom newGuestRoom=this.guestRoomService.queryById(guestRoom.getRoomId());
-            if (newGuestRoom==null){
-                return Result.fail(400,"外键scenicArea在表中不存在",guestRoom);
         }
         //正式添加
         GuestRoom _guestRoom = this.guestRoomService.insert(guestRoom);
@@ -76,11 +76,17 @@ public class GuestRoomController {
         if(TestGuestRoom==null){
             return Result.fail(400,"表中无此主键ID对应的数据",null);
         }
-        if (guestRoom.getHotelId()!= null) {
-            return Result.fail(400, "不允许修改外键ScenicAreaId,此项必须为空", null);
+        if(guestRoom.getHotelId()!=null){
+            Hotel testHotel=this.hotelService.queryById(guestRoom.getHotelId());
+            if(testHotel==null){
+                return Result.fail(400,"外键对应数据在其所属表中不存在",guestRoom);
+            }
         }
+
+
         GuestRoom _guestRoom = this.guestRoomService.update(guestRoom);
         if (_guestRoom != null) {
+
             return Result.success(200, "更新成功", _guestRoom);
         } else {
             return Result.fail(400, "更新失败", null);

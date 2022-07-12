@@ -57,7 +57,7 @@ public class EntertainmentController {
         if(entertainment.getScenicAreaId()!=null){
             ScenicArea scenicArea=scenicAreaService.queryById(entertainment.getScenicAreaId());
             if (scenicArea==null){
-                return Result.fail(400,"外键scenicArea在表中不存在",entertainment);
+                return Result.fail(400,"外键scenicAreaId在表中不存在",entertainment);
             }
         }
         //正式添加
@@ -85,7 +85,10 @@ public class EntertainmentController {
             return Result.fail(400,"表中无此主键ID对应的数据",null);
                 }
         if (entertainment.getScenicAreaId() != null) {
-            return Result.fail(400, "不允许修改外键ScenicAreaId,此项必须为空", null);
+            ScenicArea scenicArea=this.scenicAreaService.queryById(entertainment.getScenicAreaId());
+            if(scenicArea==null){
+                return Result.fail(400, "外键在外键所属表中不存在", null);
+            }
         }
         Entertainment _entertainment = this.entertainmentService.update(entertainment);
         if (_entertainment != null) {

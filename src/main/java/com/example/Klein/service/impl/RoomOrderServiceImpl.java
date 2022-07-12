@@ -84,6 +84,11 @@ public class RoomOrderServiceImpl implements RoomOrderService {
     }
 
     @Override
+    public List<RoomOrder> queryOrderByHotelId(Long hotelId) {
+        return this.roomOrderDao.queryOrderByHotelId(hotelId);
+    }
+
+    @Override
     public List<RoomOrder> queryAll(){
         return this.roomOrderDao.queryAll();
     }

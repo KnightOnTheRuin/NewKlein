@@ -1,15 +1,16 @@
 package com.example.Klein.controller;
 
-import com.example.Klein.entity.PageSendMessage;
-import com.example.Klein.entity.Performance;
-import com.example.Klein.entity.RoomOrder;
-import com.example.Klein.entity.ScenicArea;
+import com.example.Klein.entity.*;
+import com.example.Klein.service.HotelService;
 import com.example.Klein.service.RoomOrderService;
+import com.example.Klein.service.UserService;
 import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,13 +27,19 @@ public class RoomOrderController {
     @Resource
     private RoomOrderService roomOrderService;
 
+    @Resource
+    private HotelService hotelService;
+
+    @Resource
+    private UserService userService;
+
     /**
      * 通过主键查询单条数据
      *
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("/queryRoomOrderById")
+    @PostMapping("/queryRoomOrderById")
     public Result queryRoomOrderById(@RequestBody Long id) {
         return Result.success(this.roomOrderService.queryById(id));
     }
@@ -47,6 +54,18 @@ public class RoomOrderController {
     @PostMapping("/addRoomOrder")
     public Result addRoomOrder(@RequestBody RoomOrder roomOrder) {
         try{
+            if(roomOrder.getOrderId()!=null){
+                return Result.fail(400,"主键不允许自定义增加",roomOrder);
+            }
+            if(roomOrder.getHotelId()==null||roomOrder.getVisitorId()==null){
+                return Result.fail(400,"增加对象时外键不允许为空",roomOrder);
+            }
+
+            Hotel hotel=this.hotelService.queryById(roomOrder.getHotelId());
+            User visitor=this.userService.queryById(roomOrder.getVisitorId());
+            if (hotel==null||visitor==null){
+                return Result.fail(400,"外键在对应的表中不存在",roomOrder);
+            }
             RoomOrder _roomOrder =  this.roomOrderService.insert(roomOrder);
             return Result.success(200,"生成订单成功",_roomOrder);
         }catch (Exception e){
@@ -59,11 +78,50 @@ public class RoomOrderController {
      * @param roomOrder 实体
      * @return 编辑结果
      */
-    @PutMapping("/editRoomOrder")
+    @PostMapping("/editRoomOrder")
     public Result editRoomOrder(@RequestBody RoomOrder roomOrder) {
-        RoomOrder ro = this.roomOrderService.update(roomOrder);
-        if(ro != null){
-            return Result.success(200,"更新成功",ro);
+
+        //通过评分修改酒店Stars
+        float totalStars=0;
+        float score=roomOrder.getStars();
+        float result;
+
+        //遍历酒店订单获取总分
+        List<RoomOrder> roomOrderList=this.roomOrderService.queryOrderByHotelId(roomOrder.getHotelId());
+        int size=roomOrderList.size();
+        if(roomOrder.getStars()!=0){
+            size++;
+        }
+        Iterator<RoomOrder> iterator = roomOrderList.iterator();
+        while (iterator.hasNext()) {
+            RoomOrder nextRoomOrder=iterator.next();
+            totalStars+=nextRoomOrder.getStars();
+            iterator.remove();
+        }
+        //求平均分
+        totalStars+=score;
+        result=totalStars/size;
+
+        //更新平均分
+        Hotel UpdateHotel=this.hotelService.queryById(roomOrder.getHotelId());
+        UpdateHotel.setStars(result);
+        this.hotelService.update(UpdateHotel);
+
+        if(roomOrder.getOrderId()==null){
+            return Result.fail(400,"必须经过主键进行更新但主键为空",null);
+        }
+        if(roomOrder.getHotelId()!=null&&roomOrder.getVisitorId()!=null){
+            Hotel hotel=this.hotelService.queryById(roomOrder.getHotelId());
+            User visitor=this.userService.queryById(roomOrder.getVisitorId());
+            if (hotel==null||visitor==null){
+                return Result.fail(400,"外键在对应的表中不存在",roomOrder);
+            }
+        }
+
+
+        RoomOrder _roomOrder = this.roomOrderService.update(roomOrder);
+        if(_roomOrder != null){
+            return Result.success(200,"更新成功",_roomOrder);
         }else{
             return Result.fail(400,"更新失败",null);
         }
@@ -77,6 +135,10 @@ public class RoomOrderController {
      */
     @PostMapping("/deleteRoomOrderById")
     public Result deleteRoomOrderById(@RequestBody Long id) {
+        RoomOrder roomOrder=this.roomOrderService.queryById(id);
+        if(roomOrder==null){
+            return Result.fail(400,"Id对应的实体在表中不存在",id);
+        }
         boolean mark = this.roomOrderService.deleteById(id);
         if(mark) {
             return Result.success(this.roomOrderService.deleteById(id));
@@ -84,6 +146,30 @@ public class RoomOrderController {
             return Result.fail(400,"删除失败",null);
         }
     }
+
+    //通过订单来评分
+    @PostMapping("/ScoreHotel")
+    public Result ScoreHotel(@RequestBody RoomOrder roomOrder) {
+
+        //通过评分修改酒店Stars
+        Hotel UpdateHotel=this.hotelService.queryById(roomOrder.getHotelId());
+        float originScore=UpdateHotel.getStars();
+        float resultStars=0;
+        float orderScore=roomOrder.getStars();
+
+        resultStars= (float) ((orderScore-originScore)*0.1/2+originScore);
+        resultStars=Math.round(resultStars*10)/10f;
+        /*DecimalFormat df1 = new DecimalFormat("#.00");
+        df1.format(resultStars);*/
+
+        //更新平均分
+        UpdateHotel.setStars(resultStars);
+        this.hotelService.update(UpdateHotel);
+
+        return Result.success(200,"评分成功",UpdateHotel);
+
+    }
+
 
     //通过条件计数订单总数
     @PostMapping("/CountRoomOrderByConditions")
@@ -117,6 +203,7 @@ public class RoomOrderController {
         }
         return Result.success(result.getData());
     }
+
 
     @PostMapping("/queryAllOrderListByPage")
     public Result queryAllOrderListByPage(@RequestBody PageSendMessage pageSendMessage){

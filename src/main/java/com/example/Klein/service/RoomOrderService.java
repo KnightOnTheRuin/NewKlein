@@ -54,5 +54,8 @@ public interface RoomOrderService {
     //通过游客ID查询订单列表
     List<RoomOrder> queryOrderListByVisitorId(Long visitorId);
 
+    //通过酒店ID查询订单列表
+    List<RoomOrder> queryOrderByHotelId(Long hotelId);
+
     List<RoomOrder> queryAll();
 }

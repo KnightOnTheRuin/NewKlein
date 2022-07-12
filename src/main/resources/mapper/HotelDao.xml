@@ -147,7 +147,7 @@
                 Icon = #{icon},
             </if>
             <if test="stars != null and stars != ''">
-                Icon = #{stars},
+                stars = #{stars},
             </if>
         </set>
         where hotel_Id = #{hotelId}

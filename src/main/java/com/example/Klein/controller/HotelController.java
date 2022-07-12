@@ -71,6 +71,8 @@ public class HotelController {
         if(TestHotel==null){
             return Result.fail(400,"表中无此主键ID对应的数据",null);
         }
+
+
         Hotel _hotel = this.hotelService.update(hotel);
         if (_hotel != null) {
             return Result.success(200, "更新成功", _hotel);
@@ -105,17 +107,17 @@ public class HotelController {
         List<Hotel> hotelList = this.hotelService.queryHotelNearScenicArea(scenicId);
 
         //hotel转NewHotel
-        List<NewHotel> NewHotelList=new LinkedList<>();
+        /*List<NewHotel> NewHotelList=new LinkedList<>();
         for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
             Hotel tempHotel=hotelList.get(i);
             NewHotel newHotel=new NewHotel(tempHotel);
             NewHotelList.add(newHotel);
-        }
+        }*/
 
-        if(NewHotelList != null){
-            result.setData(NewHotelList);
+        if(hotelList != null){
+            result.setData(hotelList);
         }else{
-            result.setData(NewHotelList);
+            result.setData(hotelList);
         }
         return Result.success(result.getData());
     }
@@ -175,15 +177,15 @@ public class HotelController {
         List<Hotel> hotelList = this.hotelService.queryStarHotelBySceniceId(scenicId);
 
         //hotel转NewHotel
-        List<NewHotel> NewHotelList=new LinkedList<>();
+        /*List<NewHotel> NewHotelList=new LinkedList<>();
         for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
             Hotel tempHotel=hotelList.get(i);
             NewHotel newHotel=new NewHotel(tempHotel);
             NewHotelList.add(newHotel);
-        }
+        }*/
 
-        if(NewHotelList != null){
-            result.setData(NewHotelList);
+        if(hotelList != null){
+            result.setData(hotelList);
         }else{
             result.setData(null);
         }
@@ -197,15 +199,15 @@ public class HotelController {
         List<Hotel> hotelList = this.hotelService.queryNoneStarHotelBySceniceId(scenicId);
 
         //hotel转NewHotel
-        List<NewHotel> NewHotelList=new LinkedList<>();
+        /*List<NewHotel> NewHotelList=new LinkedList<>();
         for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
             Hotel tempHotel=hotelList.get(i);
             NewHotel newHotel=new NewHotel(tempHotel);
             NewHotelList.add(newHotel);
-        }
+        }*/
 
-        if(NewHotelList != null){
-            result.setData(NewHotelList);
+        if(hotelList != null){
+            result.setData(hotelList);
         }else{
             result.setData(null);
         }
@@ -220,15 +222,15 @@ public class HotelController {
         List<Hotel> hotelList = this.hotelService.queryHotelListByAdminId(adminId);
 
         //hotel转NewHotel
-        List<NewHotel> NewHotelList=new LinkedList<>();
+        /*List<NewHotel> NewHotelList=new LinkedList<>();
         for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
             Hotel tempHotel=hotelList.get(i);
             NewHotel newHotel=new NewHotel(tempHotel);
             NewHotelList.add(newHotel);
-        }
+        }*/
 
-        if(NewHotelList != null){
-            result.setData(NewHotelList);
+        if(hotelList != null){
+            result.setData(hotelList);
         }else{
             result.setData(null);
         }
