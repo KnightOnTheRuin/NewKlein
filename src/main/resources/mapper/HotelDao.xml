@@ -11,12 +11,13 @@
         <result property="address" column="address" jdbcType="VARCHAR"/>
         <result property="price" column="price" jdbcType="VARCHAR"/>
         <result property="icon" column="Icon" jdbcType="VARCHAR"/>
+        <result property="stars" column="stars" jdbcType="FLOAT"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel
         where hotel_Id = #{hotelId}
     </select>
@@ -24,7 +25,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel
         <where>
             <if test="hotelId != null">
@@ -48,6 +49,9 @@
             <if test="icon != null and icon != ''">
                 and Icon = #{icon}
             </if>
+            <if test="stars != null and icon != ''">
+                and stars = #{stars}
+            </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
     </select>
@@ -55,7 +59,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+          hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from klein.hotel
     </select>
     <!--统计总行数-->
@@ -84,28 +88,31 @@
             <if test="icon != null and icon != ''">
                 and Icon = #{icon}
             </if>
+            <if test="stars != null and icon != ''">
+                and stars = #{stars}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="hotelId" useGeneratedKeys="true">
-        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon)
-        values (#{hotelName}, #{starLevel}, #{phoneNumber}, #{address}, #{price}, #{icon})
+        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon,stars)
+        values (#{hotelName}, #{starLevel}, #{phoneNumber}, #{address}, #{price}, #{icon},#{stars})
     </insert>
 
     <insert id="insertBatch" keyProperty="hotelId" useGeneratedKeys="true">
-        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon)
+        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon,stars)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.hotelName}, #{entity.starLevel}, #{entity.phoneNumber}, #{entity.address}, #{entity.price}, #{entity.icon})
+        (#{entity.hotelName}, #{entity.starLevel}, #{entity.phoneNumber}, #{entity.address}, #{entity.price}, #{entity.icon},#{entity.stars})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="hotelId" useGeneratedKeys="true">
-        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon)
+        insert into hotel(hotel_Name, star_Level, phone_Number, address, price, Icon,stars)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.hotelName}, #{entity.starLevel}, #{entity.phoneNumber}, #{entity.address}, #{entity.price}, #{entity.icon})
+            (#{entity.hotelName}, #{entity.starLevel}, #{entity.phoneNumber}, #{entity.address}, #{entity.price}, #{entity.icon},#{entity.stars})
         </foreach>
         on duplicate key update
         hotel_Name = values(hotel_Name),
@@ -113,7 +120,8 @@
         phone_Number = values(phone_Number),
         address = values(address),
         price = values(price),
-        Icon = values(Icon)
+        Icon = values(Icon),
+        stars = values(stars)
     </insert>
 
     <!--通过主键修改数据-->
@@ -138,6 +146,9 @@
             <if test="icon != null and icon != ''">
                 Icon = #{icon},
             </if>
+            <if test="stars != null and stars != ''">
+                Icon = #{stars},
+            </if>
         </set>
         where hotel_Id = #{hotelId}
     </update>
@@ -149,45 +160,45 @@
     <!--通过星级查酒店-->
     <select id="queryHotelByStarLevel" resultMap="BaseResultMap">
         select
-            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel
         where star_Level=#{starLevel}
     </select>
     <!--查找非星级酒店-->
     <select id="queryHotelHaveNoStar" resultMap="BaseResultMap">
         select
-            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel
         where star_Level=0
     </select>
     <!--查找星级酒店-->
     <select id="queryHotelHaveAnyStar" resultMap="BaseResultMap">
         select
-            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel
         where star_Level!=0
     </select>
     <!--查找景区附近酒店-->
     <select id="queryHotelNearScenicArea" resultMap="BaseResultMap">
-        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel,nearly
         where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId}
     </select>
     <!--查找景区附近星级酒店-->
     <select id="queryStarHotelNearScenicArea" resultMap="BaseResultMap">
-        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel,nearly
         where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId} and hotel.star_Level!=0
     </select>
     <!--查找景区附近星级酒店-->
     <select id="queryNoStarHotelNearScenicArea" resultMap="BaseResultMap">
-        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel,nearly
         where hotel.hotel_Id=nearly.hotel_Id and nearly.scenic_Area_Id=#{ScenicAreaId} and hotel.star_Level=0
     </select>
     <!--某个酒店管理员管理的所有酒店-->
     <select id="queryHotelByAdministratorId" resultMap="BaseResultMap">
-        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon
+        select hotel.hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
         from hotel,management
         where management.administrator_Id=#{Administrator} and management.hotel_Id=hotel.hotel_Id
     </select>

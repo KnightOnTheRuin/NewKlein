@@ -25,6 +25,17 @@ public class Hotel implements Serializable {
     
     private String icon;
 
+    private float stars;
+    public float getStars() {
+        return stars;
+    }
+
+    public void setStars(float stars) {
+        this.stars = stars;
+    }
+
+
+
 
     public Long getHotelId() {
         return hotelId;
