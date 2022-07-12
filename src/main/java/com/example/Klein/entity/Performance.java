@@ -26,6 +26,7 @@ public class Performance implements Serializable {
     private String time;
 
     private  String description;
+
     public String getDescription() {
         return description;
     }
@@ -33,9 +34,6 @@ public class Performance implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
-
 
     public Long getPerformanceId() {
         return performanceId;

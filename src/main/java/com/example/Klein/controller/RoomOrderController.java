@@ -75,7 +75,7 @@ public class RoomOrderController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deleteRoomOrderById")
+    @PostMapping("/deleteRoomOrderById")
     public Result deleteRoomOrderById(@RequestBody Long id) {
         boolean mark = this.roomOrderService.deleteById(id);
         if(mark) {

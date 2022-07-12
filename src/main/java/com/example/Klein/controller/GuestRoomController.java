@@ -1,9 +1,6 @@
 package com.example.Klein.controller;
 
-import com.example.Klein.entity.Entertainment;
-import com.example.Klein.entity.GuestRoom;
-import com.example.Klein.entity.PageSendMessage;
-import com.example.Klein.entity.ScenicArea;
+import com.example.Klein.entity.*;
 import com.example.Klein.service.GuestRoomService;
 import com.example.Klein.utils.PageMessage;
 import com.example.Klein.utils.result.Result;
@@ -11,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -94,7 +92,7 @@ public class GuestRoomController {
       @param guestRoomId 主键
       @return 删除是否成功
      */
-    @DeleteMapping("/deleteGuestRoomById")
+    @PostMapping("/deleteGuestRoomById")
     public Result deleteGuestRoomById(@RequestBody Long guestRoomId) {
         GuestRoom _guestRoom=this.guestRoomService.queryById(guestRoomId);
         if(_guestRoom==null){
@@ -108,12 +106,22 @@ public class GuestRoomController {
         }
     }
 
+    //酒店ID查询客房列表
     @PostMapping("/queryRoomListByHotelId")
     public Result queryRoomListByHotelId(@RequestBody Long hotelId){
         Result result = new Result();
         List<GuestRoom> roomList = this.guestRoomService.queryRoomByHotelId(hotelId);
+
+        //Room转NewRoom
+        List<NewRoom> returnRoomList=new LinkedList<>();
+        for( int i = 0 ; i < roomList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            GuestRoom tempRoom=roomList.get(i);
+            NewRoom newRoom=new NewRoom(tempRoom);
+            returnRoomList.add(newRoom);
+        }
+
         if(roomList != null){
-            result.setData(roomList);
+            result.setData(returnRoomList);
         }else{
             result.setData(hotelId);
         }

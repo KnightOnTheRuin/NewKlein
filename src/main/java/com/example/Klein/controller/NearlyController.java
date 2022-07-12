@@ -76,7 +76,7 @@ public class NearlyController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deleteNearlyById")
+    @PostMapping("/deleteNearlyById")
     public Result deleteTNById(@RequestBody Long id) {
         boolean mark = this.nearlyService.deleteById(id);
         if(mark) {

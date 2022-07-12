@@ -100,7 +100,7 @@ public class EntertainmentController {
      * @param entertainmentId 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deleteEntertainmentById")
+    @PostMapping("/deleteEntertainmentById")
     public Result deleteEntertainmentById(@RequestBody Long entertainmentId) {
         Entertainment _entertainment=this.entertainmentService.queryById(entertainmentId);
         if(_entertainment==null){

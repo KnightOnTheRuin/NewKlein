@@ -74,7 +74,7 @@ public class ScenicAreaController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deleteSAById")
+    @PostMapping("/deleteSAById")
     public Result deleteSAById(@RequestBody Long id) {
         boolean mark = this.scenicAreaService.deleteById(id);
         if(mark){

@@ -72,7 +72,7 @@ public class PerformanceController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deletePFMCById")
+    @PostMapping("/deletePFMCById")
     public Result deletePFMCById(@RequestBody Long id) {
         boolean mark = this.performanceService.deleteById(id);
         if(mark) {

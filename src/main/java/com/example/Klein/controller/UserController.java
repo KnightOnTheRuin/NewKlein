@@ -41,10 +41,19 @@ public class UserController {
     public Result userLogin(@RequestBody User user) {
         User _user = this.userService.userLogin(user.getPhoneNumber(), user.getPassword());
         if(_user != null){
-            return Result.success(200,"登陆成功",_user);
+            if(_user.getIsAdmin()==2){
+                return Result.success(300,"管理员登录成功",_user);
+            }
+            if(_user.getIsAdmin()==1){
+                return Result.success(201,"酒店管理员登录成功",_user);
+            }
+            if(_user.getIsAdmin()==0){
+                return  Result.success(200,"游客登录成功",_user);
+            }
         }else{
             return Result.fail(402,"账号或密码错误",null);
         }
+        return Result.fail(400,"其他错误",null);
     }
 
     //查询数据库所有数据
@@ -105,7 +114,7 @@ public class UserController {
      * @param userId 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deleteUserById")
+    @PostMapping("/deleteUserById")
     public Result deleteById(@RequestBody Long userId) {
         boolean mark = this.userService.deleteById(userId);
         if(mark){

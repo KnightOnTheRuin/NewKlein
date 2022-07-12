@@ -7,6 +7,8 @@ import java.io.Serializable;
 @Data
 public class Result implements Serializable {
     // 200是正常情况，非200表示异常
+    //300表示平台管理员登录成功
+    //201表示酒店管理员登录成功
     // 400通用错误
     // 401缺乏对应权限
     // 402登陆状态错误

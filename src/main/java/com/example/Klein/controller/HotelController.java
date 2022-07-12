@@ -84,7 +84,7 @@ public class HotelController {
      * @param hotelId 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deleteHotelById")
+    @PostMapping("/deleteHotelById")
     public Result deleteHotelById(@RequestBody Long hotelId) {
         Hotel _hotel=this.hotelService.queryById(hotelId);
         if(_hotel==null){

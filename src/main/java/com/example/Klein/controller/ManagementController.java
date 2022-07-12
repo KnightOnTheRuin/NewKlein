@@ -92,7 +92,7 @@ public class ManagementController {
      * @param managementId 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/deleteManagementById")
+    @PostMapping("/deleteManagementById")
     public Result deleteManagementById(@RequestBody Long managementId) {
         Management _management=this.managementService.queryById(managementId);
         if(_management==null){
