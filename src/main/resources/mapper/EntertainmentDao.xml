@@ -148,5 +148,19 @@
         from scenic_area,entertainment
         where scenic_area.scenic_Area_Name=#{scenicAreaName} and scenic_area.scenic_Area_Id=entertainment.scenic_Area_Id
     </select>
+    <!--通过景区id找餐饮-->
+    <select id="queryCateringByScenicAreaId" resultMap="BaseResultMap">
+        select
+            entertainment_Id, entertainment_Name, entertainment_Type, scenic_Area_Id, Icon,address,time
+        from entertainment
+        where scenic_Area_Id=#{scenicAreaId} and entertainment_Type='餐饮'
+    </select>
+    <!--通过景区id找娱乐场所-->
+    <select id="queryNotCateringByScenicAreaId" resultMap="BaseResultMap">
+        select
+        entertainment_Id, entertainment_Name, entertainment_Type, scenic_Area_Id, Icon,address,time
+        from entertainment
+        where scenic_Area_Id=#{scenicAreaId} and entertainment_Type!='餐饮'
+    </select>
 </mapper>
 

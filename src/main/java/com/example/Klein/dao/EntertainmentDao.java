@@ -88,5 +88,21 @@ public interface EntertainmentDao {
 
     List<Entertainment> queryAll();
 
+    /**
+     * 通过景区Id查找餐饮
+     *
+     * @param scenicAreaId 非主键
+     * @return 实例对象
+     */
+    List<Entertainment> queryCateringByScenicAreaId(Long scenicAreaId);
+
+    /**
+     * 通过景区Id查找娱乐场所
+     *
+     * @param scenicAreaId 非主键
+     * @return 实例对象
+     */
+    List<Entertainment> queryNotCateringByScenicAreaId(Long scenicAreaId);
+
 }
 
