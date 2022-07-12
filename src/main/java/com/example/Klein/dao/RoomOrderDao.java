@@ -84,5 +84,12 @@ public interface RoomOrderDao {
     List<RoomOrder> queryOrderByVisitorId(Long visitorId);
 
     List<RoomOrder> queryAll();
+
+    /**
+     * 通过游客Id查找到当前游客的所有订单
+     * @param hotelId  非主键
+     * @return 实例对象
+     */
+    List<RoomOrder> queryOrderByHotelId(Long hotelId);
 }
 

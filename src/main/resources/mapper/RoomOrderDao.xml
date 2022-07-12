@@ -138,7 +138,7 @@
     <!--通过管理员Id查询所有订单，即当前管理员查看自己需要处理或者已经处理过的订单-->
     <select id="queryOrderByAdminId" resultMap="BaseResultMap">
         select
-            order_Id, order_description, visitor_id, room_order.hotel_id, result,stars
+            order_Id, order_description, visitor_id, room_order.hotel_id, result,room_order.stars
         from room_order,hotel,management
         where management.administrator_Id=#{adminId} and management.hotel_Id=hotel.hotel_Id and hotel.hotel_Id=room_order.hotel_id
 
@@ -148,6 +148,12 @@
         select order_Id, order_description, visitor_id, room_order.hotel_id, result,stars
         from room_order
         where room_order.visitor_id=#{visitorId}
+    </select>
+    <!--通过酒店Id查找订单-->
+    <select id="queryOrderByHotelId" resultMap="BaseResultMap">
+        select order_Id, order_description, visitor_id, room_order.hotel_id, result,stars
+        from  room_order
+        where room_order.hotel_id=#{hotelId}
     </select>
 </mapper>
 
