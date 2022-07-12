@@ -11,12 +11,13 @@
         <result property="performanceType" column="performance_Type" jdbcType="VARCHAR"/>
         <result property="icon" column="Icon" jdbcType="VARCHAR"/>
         <result property="time" column="time" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description
         from performance
         where performance_Id = #{performanceId}
     </select>
@@ -24,7 +25,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description
         from performance
         <where>
             <if test="performanceId != null">
@@ -48,6 +49,9 @@
             <if test="time != null and time != ''">
                 and time = #{time}
             </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
     </select>
@@ -55,7 +59,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+          performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description
         from klein.performance
     </select>
     <!--统计总行数-->
@@ -84,28 +88,31 @@
             <if test="time != null and time != ''">
                 and time = #{time}
             </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="performanceId" useGeneratedKeys="true">
-        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time)
-        values (#{scenicAreaId}, #{performanceName}, #{teamName}, #{performanceType}, #{icon}, #{time})
+        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description)
+        values (#{scenicAreaId}, #{performanceName}, #{teamName}, #{performanceType}, #{icon}, #{time},#{description})
     </insert>
 
     <insert id="insertBatch" keyProperty="performanceId" useGeneratedKeys="true">
-        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time)
+        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.scenicAreaId}, #{entity.performanceName}, #{entity.teamName}, #{entity.performanceType}, #{entity.icon}, #{entity.time})
+        (#{entity.scenicAreaId}, #{entity.performanceName}, #{entity.teamName}, #{entity.performanceType}, #{entity.icon}, #{entity.time},#{entity.description})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="performanceId" useGeneratedKeys="true">
-        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time)
+        insert into performance(scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.scenicAreaId}, #{entity.performanceName}, #{entity.teamName}, #{entity.performanceType}, #{entity.icon}, #{entity.time})
+            (#{entity.scenicAreaId}, #{entity.performanceName}, #{entity.teamName}, #{entity.performanceType}, #{entity.icon}, #{entity.time},#{entity.description})
         </foreach>
         on duplicate key update
         scenic_Area_Id = values(scenic_Area_Id),
@@ -113,7 +120,8 @@
         team_Name = values(team_Name),
         performance_Type = values(performance_Type),
         Icon = values(Icon),
-        time = values(time)
+        time = values(time),
+        description=values(description)
     </insert>
 
     <!--通过主键修改数据-->
@@ -138,6 +146,9 @@
             <if test="time != null and time != ''">
                 time = #{time},
             </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
         </set>
         where performance_Id = #{performanceId}
     </update>
@@ -149,14 +160,14 @@
     <!--通过景区Id查找演出-->
     <select id="queryPerformanceByScenicAreaId" resultMap="BaseResultMap">
         select
-            performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+            performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description
         from performance
         where scenic_Area_Id=#{scenicAreaId}
     </select>
     <!--通过景区名查找演出-->
     <select id="queryPerformanceByScenicAreaName" resultMap="BaseResultMap">
         select
-            performance_Id, performance.scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time
+            performance_Id, performance.scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,performance.description
         from performance,scenic_area
         where scenic_area.scenic_Area_Name=#{scenicAreaName} and scenic_area.scenic_Area_Id = performance.scenic_Area_Id
     </select>
