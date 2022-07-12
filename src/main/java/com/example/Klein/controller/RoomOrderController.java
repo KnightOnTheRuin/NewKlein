@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -157,7 +158,7 @@ public class RoomOrderController {
         float resultStars=0;
         float orderScore=roomOrder.getStars();
 
-        resultStars= (float) ((orderScore-originScore)*0.1/2+originScore);
+        resultStars= (float) ((orderScore-originScore)*0.1+originScore);
         resultStars=Math.round(resultStars*10)/10f;
         /*DecimalFormat df1 = new DecimalFormat("#.00");
         df1.format(resultStars);*/
@@ -196,8 +197,71 @@ public class RoomOrderController {
     public Result queryOrderListByVisitorId(@RequestBody Long visitorId){
         Result result = new Result();
         List<RoomOrder> roomOrderList = this.roomOrderService.queryOrderListByVisitorId(visitorId);
-        if(roomOrderList != null){
-            result.setData(roomOrderList);
+
+        //中间类转换
+        List<NewRoomOrder> newRoomOrderList=new LinkedList<>();
+        for( int i = 0 ; i < roomOrderList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            RoomOrder tempRoomOrder=roomOrderList.get(i);
+            NewRoomOrder newRoomOrder=new NewRoomOrder(tempRoomOrder);
+
+            Hotel tempHotel=this.hotelService.queryById(tempRoomOrder.getHotelId());
+            newRoomOrder.setHotelName(tempHotel.getHotelName());
+            newRoomOrderList.add(newRoomOrder);
+        }
+
+
+        if(newRoomOrderList != null){
+            result.setData(newRoomOrderList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过游客ID查找未完成订单列表  (0,1,2)状态
+    @PostMapping("/queryNonFinishOrderListByVisitorId")
+    public Result queryNonFinishOrderListByVisitorId(@RequestBody Long visitorId){
+        Result result = new Result();
+        List<RoomOrder> roomOrderList = this.roomOrderService.queryNoFinishedOrderByVisitorId(visitorId);
+
+        //中间类转换
+        List<NewRoomOrder> newRoomOrderList=new LinkedList<>();
+        for( int i = 0 ; i < roomOrderList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            RoomOrder tempRoomOrder=roomOrderList.get(i);
+            NewRoomOrder newRoomOrder=new NewRoomOrder(tempRoomOrder);
+            Hotel tempHotel=this.hotelService.queryById(tempRoomOrder.getHotelId());
+            newRoomOrder.setHotelName(tempHotel.getHotelName());
+            newRoomOrderList.add(newRoomOrder);
+        }
+
+
+        if(newRoomOrderList != null){
+            result.setData(newRoomOrderList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+    //通过游客ID查找已完成未评价订单列表  3状态
+    @PostMapping("/queryFinishOrderListByVisitorId")
+    public Result queryFinishOrderListByVisitorId(@RequestBody Long visitorId){
+        Result result = new Result();
+        List<RoomOrder> roomOrderList = this.roomOrderService.queryFinisherOrderByVisitorId(visitorId);
+
+        //中间类转换
+        List<NewRoomOrder> newRoomOrderList=new LinkedList<>();
+        for( int i = 0 ; i < roomOrderList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            RoomOrder tempRoomOrder=roomOrderList.get(i);
+            NewRoomOrder newRoomOrder=new NewRoomOrder(tempRoomOrder);
+            Hotel tempHotel=this.hotelService.queryById(tempRoomOrder.getHotelId());
+            newRoomOrder.setHotelName(tempHotel.getHotelName());
+            newRoomOrderList.add(newRoomOrder);
+        }
+
+
+        if(newRoomOrderList != null){
+            result.setData(newRoomOrderList);
         }else{
             result.setData(null);
         }
@@ -205,6 +269,33 @@ public class RoomOrderController {
     }
 
 
+    //通过游客ID查找已完成评价订单列表  4状态
+    @PostMapping("/queryEvaluateOrderListByVisitorId")
+    public Result queryEvaluateOrderListByVisitorId(@RequestBody Long visitorId){
+        Result result = new Result();
+        List<RoomOrder> roomOrderList = this.roomOrderService.queryEvaluatedOrderByVisitorId(visitorId);
+
+        //中间类转换
+        List<NewRoomOrder> newRoomOrderList=new LinkedList<>();
+        for( int i = 0 ; i < roomOrderList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            RoomOrder tempRoomOrder=roomOrderList.get(i);
+            NewRoomOrder newRoomOrder=new NewRoomOrder(tempRoomOrder);
+            Hotel tempHotel=this.hotelService.queryById(tempRoomOrder.getHotelId());
+            newRoomOrder.setHotelName(tempHotel.getHotelName());
+            newRoomOrderList.add(newRoomOrder);
+        }
+
+
+        if(newRoomOrderList != null){
+            result.setData(newRoomOrderList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+
+    //分页查询
     @PostMapping("/queryAllOrderListByPage")
     public Result queryAllOrderListByPage(@RequestBody PageSendMessage pageSendMessage){
         //数据解封

@@ -53,6 +53,12 @@ public interface EntertainmentService {
     //通过景区名字查找娱乐列表
     List<Entertainment> queryListByScenicName(String ScenicName);
 
+    /*通过景区Id查找餐饮*/
+    List<Entertainment> queryCateringByScenicAreaId(Long scenicAreaId);
+
+    /*通过景区Id查找娱乐场所*/
+    List<Entertainment> queryNotCateringByScenicAreaId(Long scenicAreaId);
+
     int BatchInsert(List<Entertainment> entities);
 
     Long countByConditions(Entertainment entertainment);

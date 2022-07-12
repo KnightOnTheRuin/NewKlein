@@ -57,5 +57,14 @@ public interface RoomOrderService {
     //通过酒店ID查询订单列表
     List<RoomOrder> queryOrderByHotelId(Long hotelId);
 
+    /*通过游客Id查找到当前游客的所有已完成但还未评价的订单*/
+    List<RoomOrder> queryFinisherOrderByVisitorId(Long visitorId);
+
+    /*通过游客Id查找到当前游客的所有已完成评价的订单*/
+    List<RoomOrder> queryEvaluatedOrderByVisitorId(Long visitorId);
+
+    /*通过游客Id查找到当前游客的未完成的订单*/
+    List<RoomOrder> queryNoFinishedOrderByVisitorId(Long visitorId);
+
     List<RoomOrder> queryAll();
 }

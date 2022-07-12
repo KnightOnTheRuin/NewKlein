@@ -149,6 +149,33 @@ public class EntertainmentController {
         return Result.success(result.getData());
     }
 
+    //通过景区ID查询餐饮列表
+    @PostMapping("/queryCateringListByAreaId")
+    public Result queryCateringListByAreaId(@RequestBody Long AreaId){
+
+        Result result = new Result();
+        List<Entertainment> entertainmentList = this.entertainmentService.queryCateringByScenicAreaId(AreaId);
+        if(entertainmentList != null){
+            result.setData(entertainmentList);
+        }else{
+            result.setData(AreaId);
+        }
+        return Result.success(result.getData());
+    }
+    //通过景区ID查询非餐饮列表
+    @PostMapping("/queryNonCateringListByAreaId")
+    public Result queryNonCateringListByAreaId(@RequestBody Long AreaId){
+
+        Result result = new Result();
+        List<Entertainment> entertainmentList = this.entertainmentService.queryNotCateringByScenicAreaId(AreaId);
+        if(entertainmentList != null){
+            result.setData(entertainmentList);
+        }else{
+            result.setData(AreaId);
+        }
+        return Result.success(result.getData());
+    }
+
     @PostMapping("/BatchInsertEntertainment")
     public Result BatchInsertEntertainment(@RequestBody List<Entertainment> entertainmentList){
         Result result = new Result();

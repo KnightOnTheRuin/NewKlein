@@ -79,6 +79,16 @@ public class EntertainmentServiceImpl implements EntertainmentService {
     }
 
     @Override
+    public List<Entertainment> queryCateringByScenicAreaId(Long scenicAreaId) {
+        return this.entertainmentDao.queryCateringByScenicAreaId(scenicAreaId);
+    }
+
+    @Override
+    public List<Entertainment> queryNotCateringByScenicAreaId(Long scenicAreaId) {
+        return this.entertainmentDao.queryNotCateringByScenicAreaId(scenicAreaId);
+    }
+
+    @Override
     public int BatchInsert(List<Entertainment> entities) {
         this.entertainmentDao.insertBatch(entities);
         return 0;

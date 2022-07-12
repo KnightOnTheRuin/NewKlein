@@ -89,6 +89,22 @@ public class RoomOrderServiceImpl implements RoomOrderService {
     }
 
     @Override
+    public List<RoomOrder> queryFinisherOrderByVisitorId(Long visitorId) {
+        return this.roomOrderDao.queryFinisherOrderByVisitorId(visitorId);
+    }
+
+    @Override
+    public List<RoomOrder> queryEvaluatedOrderByVisitorId(Long visitorId) {
+        return this.roomOrderDao.queryEvaluatedOrderByVisitorId(visitorId);
+    }
+
+    @Override
+    public List<RoomOrder> queryNoFinishedOrderByVisitorId(Long visitorId) {
+        return this.roomOrderDao.queryNoFinishedOrderByVisitorId(visitorId);
+    }
+
+
+    @Override
     public List<RoomOrder> queryAll(){
         return this.roomOrderDao.queryAll();
     }
