@@ -22,6 +22,17 @@ public class RoomOrder implements Serializable {
     private Integer result;
 
     private float stars;
+
+    private String orderTime;
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
+    }
+
+
     public float getStars() {
         return stars;
     }
