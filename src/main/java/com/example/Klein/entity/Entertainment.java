@@ -20,6 +20,15 @@ public class Entertainment implements Serializable {
     private Long scenicAreaId;
     
     private String icon;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     private String address;
 
     private String time;
