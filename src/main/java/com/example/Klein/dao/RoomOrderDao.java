@@ -97,20 +97,20 @@ public interface RoomOrderDao {
      * @param visitorId  非主键
      * @return 实例对象
      */
-    List<RoomOrder> queryFinisherOrderByHotelId(Long visitorId);
+    List<RoomOrder> queryFinisherOrderByVisitorId(Long visitorId);
 
     /**
      * 通过游客Id查找到当前游客的所有已完成评价的订单
      * @param visitorId  非主键
      * @return 实例对象
      */
-    List<RoomOrder> queryEvaluatedOrderByHotelId(Long visitorId);
+    List<RoomOrder> queryEvaluatedOrderByVisitorId(Long visitorId);
 
     /**
      * 通过游客Id查找到当前游客的未完成的订单
      * @param visitorId  非主键
      * @return 实例对象
      */
-    List<RoomOrder> queryNoFinishedOrderByHotelId(Long visitorId);
+    List<RoomOrder> queryNoFinishedOrderByVisitorId(Long visitorId);
 }
 

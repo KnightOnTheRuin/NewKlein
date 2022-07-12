@@ -167,19 +167,19 @@
         where room_order.hotel_id=#{hotelId}
     </select>
     <!--查询当前游客已完成但未评价的订单-->
-    <select id="queryFinisherOrderByHotelId" resultMap="BaseResultMap">
+    <select id="queryFinisherOrderByVisitorId" resultMap="BaseResultMap">
         select order_Id, order_description, visitor_id, room_order.hotel_id, result,stars,order_time
         from  room_order
         where room_order.visitor_id=#{visitorId} and result=3
     </select>
     <!--查询当前游客已完成评价的订单-->
-    <select id="queryEvaluatedOrderByHotelId" resultMap="BaseResultMap">
+    <select id="queryEvaluatedOrderByVisitorId" resultMap="BaseResultMap">
         select order_Id, order_description, visitor_id, room_order.hotel_id, result,stars,order_time
         from  room_order
         where room_order.visitor_id=#{visitorId} and result=4
     </select>
     <!--查询当前游客还未完成的订单-->
-    <select id="queryNoFinishedOrderByHotelId" resultMap="BaseResultMap">
+    <select id="queryNoFinishedOrderByVisitorId" resultMap="BaseResultMap">
         select order_Id, order_description, visitor_id, room_order.hotel_id, result,stars,order_time
         from  room_order
         <where>
