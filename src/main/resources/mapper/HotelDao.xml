@@ -49,7 +49,7 @@
             <if test="icon != null and icon != ''">
                 and Icon = #{icon}
             </if>
-            <if test="stars != null and icon != ''">
+            <if test="stars != null and stars != ''">
                 and stars = #{stars}
             </if>
         </where>
@@ -88,7 +88,7 @@
             <if test="icon != null and icon != ''">
                 and Icon = #{icon}
             </if>
-            <if test="stars != null and icon != ''">
+            <if test="stars != null and stars != ''">
                 and stars = #{stars}
             </if>
         </where>

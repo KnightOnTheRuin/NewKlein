@@ -120,11 +120,11 @@
             <if test="icon != null and icon != ''">
                 Icon = #{icon},
             </if>
-            <if test="address != null and icon != ''">
-                Icon = #{address},
+            <if test="address != null and address != ''">
+                address = #{address},
             </if>
-            <if test="time != null and icon != ''">
-                Icon = #{time},
+            <if test="time != null and time != ''">
+                time = #{time},
             </if>
         </set>
         where entertainment_Id = #{entertainmentId}
