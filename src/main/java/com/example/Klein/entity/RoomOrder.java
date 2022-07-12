@@ -21,6 +21,17 @@ public class RoomOrder implements Serializable {
     
     private Integer result;
 
+    private float stars;
+    public float getStars() {
+        return stars;
+    }
+
+    public void setStars(float stars) {
+        this.stars = stars;
+    }
+
+
+
 
     public Long getOrderId() {
         return orderId;
