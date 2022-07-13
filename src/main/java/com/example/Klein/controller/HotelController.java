@@ -44,6 +44,10 @@ public class HotelController {
      */
     @PostMapping("/hotelAdd")
     public Result hotelAdd(@RequestBody Hotel hotel) {
+
+        if(hotel.getStarLevel()!=0&&hotel.getStarLevel()!=3&&hotel.getStarLevel()!=4&&hotel.getStarLevel()!=5){
+            return Result.fail(400,"酒店星级设置错误",hotel);
+        }
         if(hotel.getHotelId()!=null){
             return Result.fail(400,"主键不允许自定义增加",hotel);
         }
@@ -64,6 +68,9 @@ public class HotelController {
      */
     @PostMapping("/updateHotel")
     public Result updateHotel(@RequestBody Hotel hotel) {
+        if(hotel.getStarLevel()!=0&&hotel.getStarLevel()!=3&&hotel.getStarLevel()!=4&&hotel.getStarLevel()!=5){
+            return Result.fail(400,"酒店星级设置错误",hotel);
+        }
         if(hotel.getHotelId()==null){
             return Result.fail(400,"必须经过主键进行更新但主键为空",null);
         }
@@ -267,6 +274,26 @@ public class HotelController {
             return Result.success(result.getData());
         }else{
             result.setData(currentPage);
+            return Result.success(result.getData());
+        }
+    }
+
+    @PostMapping("/queryAllHotel")
+    public Result queryAllHotel(){
+
+        Result result = new Result();
+        List<Hotel> hotelList = this.hotelService.queryAll();
+        /*List<Long> hotelIdList = new LinkedList<>();
+        for(int i=0;i<hotelList.size();i++){
+            Hotel hotel = hotelList.get(i);
+            hotelIdList.add(hotel.getHotelId());
+        }*/
+
+        if(hotelList != null){
+            result.setData(hotelList);
+            return Result.success(result.getData());
+        }else{
+            result.setData(hotelList);
             return Result.success(result.getData());
         }
     }

@@ -6,6 +6,8 @@ import lombok.Data;
 public class NewRoomOrder {
     private static final long serialVersionUID = -62708453945825385L;
 
+    public NewRoomOrder(){}
+
     public NewRoomOrder(RoomOrder roomOrder){
         this.orderId=roomOrder.getOrderId();
         this.hotelId=roomOrder.getHotelId();

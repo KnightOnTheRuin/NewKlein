@@ -46,6 +46,9 @@ public class GuestRoomController {
      */
     @PostMapping("/GuestRoomAdd")
     public Result GuestRoomAdd(@RequestBody GuestRoom guestRoom) {
+        if(guestRoom.getIsFull()!=0&&guestRoom.getIsFull()!=1){
+            return  Result.fail(400,"设置房间状态出错",null);
+        }
         if(guestRoom.getRoomId()!=null){
             return Result.fail(400,"主键不允许自定义增加",guestRoom);
         }
@@ -74,6 +77,9 @@ public class GuestRoomController {
      */
     @PostMapping("/updateGuestRoom")
     public Result updateGuestRoom(@RequestBody GuestRoom guestRoom) {
+        if(guestRoom.getIsFull()!=0&&guestRoom.getIsFull()!=1){
+            return  Result.fail(400,"设置房间状态出错",null);
+        }
         if(guestRoom.getRoomId()==null){
             return Result.fail(400,"必须经过主键进行更新但主键为空",null);
         }
@@ -98,11 +104,7 @@ public class GuestRoomController {
         }
     }
 
-    /**
-      删除数据
-      @param guestRoomId 主键
-      @return 删除是否成功
-     */
+    /*删除数据*/
     @PostMapping("/deleteGuestRoomById")
     public Result deleteGuestRoomById(@RequestBody Long guestRoomId) {
         GuestRoom _guestRoom=this.guestRoomService.queryById(guestRoomId);

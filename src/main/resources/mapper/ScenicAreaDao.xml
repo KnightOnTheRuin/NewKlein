@@ -11,12 +11,13 @@
         <result property="icon2" column="Icon_2" jdbcType="VARCHAR"/>
         <result property="icon3" column="Icon_3" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+          scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city
         from scenic_area
         where scenic_Area_Id = #{scenicAreaId}
     </select>
@@ -24,7 +25,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select
-          scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+          scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city
         from scenic_area
         <where>
             <if test="scenicAreaId != null">
@@ -48,6 +49,9 @@
             <if test="description != null and description != ''">
                 and description = #{description}
             </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
     </select>
@@ -55,7 +59,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+          scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city
         from klein.scenic_area
     </select>
     <!--统计总行数-->
@@ -84,28 +88,31 @@
             <if test="description != null and description != ''">
                 and description = #{description}
             </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="scenicAreaId" useGeneratedKeys="true">
-        insert into scenic_area(scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description)
-        values (#{scenicAreaName}, #{phoneNumber}, #{icon1}, #{icon2}, #{icon3}, #{description})
+        insert into scenic_area(scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city)
+        values (#{scenicAreaName}, #{phoneNumber}, #{icon1}, #{icon2}, #{icon3}, #{description},#{city})
     </insert>
 
     <insert id="insertBatch" keyProperty="scenicAreaId" useGeneratedKeys="true">
-        insert into scenic_area(scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description)
+        insert into scenic_area(scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.scenicAreaName}, #{entity.phoneNumber}, #{entity.icon1}, #{entity.icon2}, #{entity.icon3}, #{entity.description})
+        (#{entity.scenicAreaName}, #{entity.phoneNumber}, #{entity.icon1}, #{entity.icon2}, #{entity.icon3}, #{entity.description},#{entity.city})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="scenicAreaId" useGeneratedKeys="true">
-        insert into scenic_area(scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description)
+        insert into scenic_area(scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.scenicAreaName}, #{entity.phoneNumber}, #{entity.icon1}, #{entity.icon2}, #{entity.icon3}, #{entity.description})
+            (#{entity.scenicAreaName}, #{entity.phoneNumber}, #{entity.icon1}, #{entity.icon2}, #{entity.icon3}, #{entity.description},#{entity.city})
         </foreach>
         on duplicate key update
         scenic_Area_Name = values(scenic_Area_Name),
@@ -114,6 +121,7 @@
         Icon_2 = values(Icon_2),
         Icon_3 = values(Icon_3),
         description = values(description)
+        city = values(city)
     </insert>
 
     <!--通过主键修改数据-->
@@ -138,6 +146,9 @@
             <if test="description != null and description != ''">
                 description = #{description},
             </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
         </set>
         where scenic_Area_Id = #{scenicAreaId}
     </update>
@@ -149,20 +160,20 @@
     <!--模糊查询景点-->
     <select id="queryByDimName" resultMap="BaseResultMap">
         select
-            scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+            scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city
         from scenic_area
         where scenic_Area_Name like #{dimName}
     </select>
     <!--精确查询景点-->
     <select id="queryByName" resultMap="BaseResultMap">
         select
-            scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+            scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city
         from scenic_area
         where scenic_Area_Name = #{Name}
     </select>
     <!--查找酒店附近景区-->
     <select id="queryScenicAreaNearHotel" resultMap="BaseResultMap">
-        select scenic_area.scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description
+        select scenic_area.scenic_Area_Id, scenic_Area_Name, phone_Number, Icon_1, Icon_2, Icon_3, description,city
         from nearly,scenic_area
         where nearly.scenic_Area_Id=scenic_area.scenic_Area_Id and nearly.hotel_Id=#{hotelId}
     </select>

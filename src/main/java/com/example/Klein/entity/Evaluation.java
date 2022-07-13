@@ -1,7 +1,10 @@
 package com.example.Klein.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
 /**
  * 游客对酒店评价(Evaluation)实体类
  *
@@ -21,46 +24,8 @@ public class Evaluation implements Serializable {
     
     private String evaluationTime;
 
+    private String userName;
 
-    public Long getEvaluationId() {
-        return evaluationId;
-    }
-
-    public void setEvaluationId(Long evaluationId) {
-        this.evaluationId = evaluationId;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Long getVisitorId() {
-        return visitorId;
-    }
-
-    public void setVisitorId(Long visitorId) {
-        this.visitorId = visitorId;
-    }
-
-    public String getEvaluationComment() {
-        return evaluationComment;
-    }
-
-    public void setEvaluationComment(String evaluationComment) {
-        this.evaluationComment = evaluationComment;
-    }
-
-    public String getEvaluationTime() {
-        return evaluationTime;
-    }
-
-    public void setEvaluationTime(String evaluationTime) {
-        this.evaluationTime = evaluationTime;
-    }
 
 }
 

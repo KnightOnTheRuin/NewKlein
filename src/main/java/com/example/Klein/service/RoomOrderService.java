@@ -66,5 +66,12 @@ public interface RoomOrderService {
     /*通过游客Id查找到当前游客的未完成的订单*/
     List<RoomOrder> queryNoFinishedOrderByVisitorId(Long visitorId);
 
+
+    /*通过管理员Id查找到当前管理员处理过的所有订单*/
+    List<RoomOrder> queryCheckedOrderByAdminId(Long adminId);
+
+    /*通过管理员Id查找到当前管理员还未处理所有订单*/
+    List<RoomOrder> queryNoCheckedOrderByAdminId(Long adminId);
+
     List<RoomOrder> queryAll();
 }

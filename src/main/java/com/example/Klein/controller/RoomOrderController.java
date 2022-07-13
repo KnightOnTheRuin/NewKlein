@@ -81,33 +81,6 @@ public class RoomOrderController {
      */
     @PostMapping("/editRoomOrder")
     public Result editRoomOrder(@RequestBody RoomOrder roomOrder) {
-
-        //通过评分修改酒店Stars
-        float totalStars=0;
-        float score=roomOrder.getStars();
-        float result;
-
-        //遍历酒店订单获取总分
-        List<RoomOrder> roomOrderList=this.roomOrderService.queryOrderByHotelId(roomOrder.getHotelId());
-        int size=roomOrderList.size();
-        if(roomOrder.getStars()!=0){
-            size++;
-        }
-        Iterator<RoomOrder> iterator = roomOrderList.iterator();
-        while (iterator.hasNext()) {
-            RoomOrder nextRoomOrder=iterator.next();
-            totalStars+=nextRoomOrder.getStars();
-            iterator.remove();
-        }
-        //求平均分
-        totalStars+=score;
-        result=totalStars/size;
-
-        //更新平均分
-        Hotel UpdateHotel=this.hotelService.queryById(roomOrder.getHotelId());
-        UpdateHotel.setStars(result);
-        this.hotelService.update(UpdateHotel);
-
         if(roomOrder.getOrderId()==null){
             return Result.fail(400,"必须经过主键进行更新但主键为空",null);
         }
@@ -118,6 +91,37 @@ public class RoomOrderController {
                 return Result.fail(400,"外键在对应的表中不存在",roomOrder);
             }
         }
+
+
+        RoomOrder _roomOrder = this.roomOrderService.update(roomOrder);
+        if(_roomOrder != null){
+            return Result.success(200,"更新成功",_roomOrder);
+        }else{
+            return Result.fail(400,"更新失败",null);
+        }
+    }
+
+
+    @PostMapping("/editNewRoomOrder")
+    public Result editNewRoomOrder(@RequestBody NewRoomOrder newRoomOrder) {
+        if(newRoomOrder.getOrderId()==null){
+            return Result.fail(400,"必须经过主键进行更新但主键为空",null);
+        }
+        if(newRoomOrder.getHotelId()!=null&&newRoomOrder.getVisitorId()!=null){
+            Hotel hotel=this.hotelService.queryById(newRoomOrder.getHotelId());
+            User visitor=this.userService.queryById(newRoomOrder.getVisitorId());
+            if (hotel==null||visitor==null){
+                return Result.fail(400,"外键在对应的表中不存在",newRoomOrder);
+            }
+        }
+
+        RoomOrder roomOrder=new RoomOrder();
+        roomOrder.setHotelId(newRoomOrder.getHotelId());
+        roomOrder.setOrderDescription(newRoomOrder.getOrderDescription());
+        roomOrder.setOrderId(newRoomOrder.getOrderId());
+        roomOrder.setOrderTime(newRoomOrder.getOrderTime());
+        roomOrder.setResult(newRoomOrder.getResult());
+        roomOrder.setVisitorId(newRoomOrder.getVisitorId());
 
 
         RoomOrder _roomOrder = this.roomOrderService.update(roomOrder);
@@ -293,6 +297,59 @@ public class RoomOrderController {
         }
         return Result.success(result.getData());
     }
+
+
+    //通过管理员ID查找未处理订单
+    @PostMapping("/queryNonCheckedOrderListByAdminId")
+    public Result queryNonCheckedOrderListByAdminId(@RequestBody Long adminId){
+        Result result = new Result();
+        List<RoomOrder> roomOrderList = this.roomOrderService.queryNoCheckedOrderByAdminId(adminId);
+
+        //中间类转换
+        List<NewRoomOrder> newRoomOrderList=new LinkedList<>();
+        for( int i = 0 ; i < roomOrderList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            RoomOrder tempRoomOrder=roomOrderList.get(i);
+            NewRoomOrder newRoomOrder=new NewRoomOrder(tempRoomOrder);
+            Hotel tempHotel=this.hotelService.queryById(tempRoomOrder.getHotelId());
+            newRoomOrder.setHotelName(tempHotel.getHotelName());
+            newRoomOrderList.add(newRoomOrder);
+        }
+
+
+        if(newRoomOrderList != null){
+            result.setData(newRoomOrderList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
+
+    //通过管理员ID查找已处理订单
+    @PostMapping("/queryCheckedOrderListByAdminId")
+    public Result queryCheckedOrderListByAdminId(@RequestBody Long adminId){
+        Result result = new Result();
+        List<RoomOrder> roomOrderList = this.roomOrderService.queryCheckedOrderByAdminId(adminId);
+
+        //中间类转换
+        List<NewRoomOrder> newRoomOrderList=new LinkedList<>();
+        for( int i = 0 ; i < roomOrderList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            RoomOrder tempRoomOrder=roomOrderList.get(i);
+            NewRoomOrder newRoomOrder=new NewRoomOrder(tempRoomOrder);
+            Hotel tempHotel=this.hotelService.queryById(tempRoomOrder.getHotelId());
+            newRoomOrder.setHotelName(tempHotel.getHotelName());
+            newRoomOrderList.add(newRoomOrder);
+        }
+
+
+        if(newRoomOrderList != null){
+            result.setData(newRoomOrderList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }
+
 
 
     //分页查询

@@ -122,12 +122,22 @@ public class EvaluationController {
         }
         List<Evaluation> returnEvaluationList=evaluationList.subList(firstIndex,lastIndex);
 
+        //搜索游客名字并添加
+        for(int i=0;i<returnEvaluationList.size();i++){
+            Evaluation evaluation=returnEvaluationList.get(i);
+            User user=this.userService.queryById(evaluation.getVisitorId());
+            evaluation.setUserName(user.getName());
+            returnEvaluationList.set(i,evaluation);
+        }
+
 
         PageMessage pageMessage=new PageMessage();
         pageMessage.setEvaluationList(returnEvaluationList);
         pageMessage.setTotalResult(evaluationList.size());
         pageMessage.setTotalPage(evaluationList.size()/PageSize+1);
         pageMessage.setTotal(lastIndex-firstIndex);
+
+
 
         if(evaluationList != null){
             result.setData(pageMessage);
@@ -155,6 +165,7 @@ public class EvaluationController {
             lastIndex=evaluationList.size();
         }
         List<Evaluation> returnEvaluationList=evaluationList.subList(firstIndex,lastIndex);
+
 
 
         PageMessage pageMessage=new PageMessage();

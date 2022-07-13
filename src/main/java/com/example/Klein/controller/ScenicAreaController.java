@@ -108,6 +108,27 @@ public class ScenicAreaController {
         return Result.success(result.getData());
     }
 
+
+    //查询全部景区
+    @PostMapping("/queryAllScenic")
+    public Result queryAllScenic(){
+        Result result = new Result();
+        List<ScenicArea> scenicAreaList = this.scenicAreaService.queryAll();
+        /*List<Long> hotelIdList = new LinkedList<>();
+        for(int i=0;i<hotelList.size();i++){
+            Hotel hotel = hotelList.get(i);
+            hotelIdList.add(hotel.getHotelId());
+        }*/
+
+        if(scenicAreaList != null){
+            result.setData(scenicAreaList);
+            return Result.success(result.getData());
+        }else{
+            result.setData(scenicAreaList);
+            return Result.success(result.getData());
+        }
+    }
+
     //通过名字精确搜索
     @PostMapping("/querySAByName")
     public Result querySAByName(@RequestBody String name){

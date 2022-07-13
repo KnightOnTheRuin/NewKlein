@@ -10,7 +10,10 @@ import java.io.Serializable;
  */
 public class RoomOrder implements Serializable {
     private static final long serialVersionUID = -62708453945825385L;
-    
+
+    public RoomOrder(){
+
+    }
     private Long orderId;
     
     private String orderDescription;

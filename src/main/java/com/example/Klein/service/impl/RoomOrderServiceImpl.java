@@ -103,6 +103,16 @@ public class RoomOrderServiceImpl implements RoomOrderService {
         return this.roomOrderDao.queryNoFinishedOrderByVisitorId(visitorId);
     }
 
+    @Override
+    public List<RoomOrder> queryCheckedOrderByAdminId(Long adminId) {
+        return this.roomOrderDao.queryCheckedOrderByAdminId(adminId);
+    }
+
+    @Override
+    public List<RoomOrder> queryNoCheckedOrderByAdminId(Long adminId) {
+        return this.roomOrderDao.queryNoCheckedOrderByAdminId(adminId);
+    }
+
 
     @Override
     public List<RoomOrder> queryAll(){
