@@ -21,6 +21,8 @@ public class PageMessage {
 
     private List<User> userList;
 
+    private List<Evaluation> evaluationList;
+
     private int totalResult;
 
     private int totalPage;

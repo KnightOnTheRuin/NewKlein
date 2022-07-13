@@ -71,22 +71,11 @@ public interface EvaluationDao {
      */
     int deleteById(Long evaluationId);
 
-    /**
-     * 通过餐饮娱乐ID查询该餐饮娱乐的评论
-     *
-     * @param entertainmentId 非主键
-     * @return 实例对象
-     */
-
+    /*通过餐饮娱乐ID查询该餐饮娱乐的评论*/
     List<Evaluation> queryEvaluationByEntertainmentId(Long entertainmentId);
 
-    /**
-     * 通过游客ID查询该游客的评论
-     *
-     * @param visitorId 非主键
-     * @return 实例对象
-     */
 
+    /*通过游客ID查询该游客的评论*/
     List<Evaluation> queryEvaluationByVisitorId(Long visitorId);
 
 }

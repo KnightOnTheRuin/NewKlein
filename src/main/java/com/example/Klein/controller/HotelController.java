@@ -230,7 +230,8 @@ public class HotelController {
         }*/
 
         if(hotelList != null){
-            result.setData(hotelList);
+            Hotel hotel=hotelList.get(0);
+            result.setData(hotel);
         }else{
             result.setData(null);
         }

@@ -52,6 +52,11 @@ public class GuestRoomController {
         if(guestRoom.getHotelId()==null){
             return Result.fail(400,"增加对象时外键不允许为空",guestRoom);
         }
+
+        Hotel hotel=this.hotelService.queryById(guestRoom.getHotelId());
+        if(hotel==null){
+            return Result.fail(400,"外键在对应的表中不存在",guestRoom);
+        }
         //正式添加
         GuestRoom _guestRoom = this.guestRoomService.insert(guestRoom);
         try {

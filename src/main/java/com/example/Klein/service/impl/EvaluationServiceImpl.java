@@ -6,6 +6,7 @@ import com.example.Klein.service.EvaluationService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 游客对酒店评价(Evaluation)表服务实现类
@@ -64,5 +65,15 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public boolean deleteById(Long evaluationId) {
         return this.evaluationDao.deleteById(evaluationId) > 0;
+    }
+
+    @Override
+    public List<Evaluation> queryEvaluationByEntertainmentId(Long entertainmentId) {
+        return this.evaluationDao.queryEvaluationByEntertainmentId(entertainmentId);
+    }
+
+    @Override
+    public List<Evaluation> queryEvaluationByVisitorId(Long visitorId) {
+        return this.evaluationDao.queryEvaluationByVisitorId(visitorId);
     }
 }

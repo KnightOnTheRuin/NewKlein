@@ -1,24 +1,16 @@
 package com.example.Klein.entity;
 
+import lombok.Data;
+
+@Data
 public class PageSendMessage {
+
+    private Long entertainmentId;
+
+    private Long userId;
 
     private int currentPage;
 
     private int pageSize;
 
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int PageSize) {
-        this.pageSize = PageSize;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
 }

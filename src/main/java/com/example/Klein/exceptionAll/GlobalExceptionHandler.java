@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@ControllerAdvice("com.example.Klein")
+//@ControllerAdvice("com.example.Klein")
 public class GlobalExceptionHandler {
     /**
      * 出现异常返回错误提示, 并且回滚事务
