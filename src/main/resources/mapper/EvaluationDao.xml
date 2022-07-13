@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Klein.dao.EvaluationDao">
+
+    <resultMap id="BaseResultMap" type="com.example.Klein.entity.Evaluation">
+        <!--@Table evaluation-->
+        <result property="evaluationId" column="evaluation_Id" jdbcType="INTEGER"/>
+        <result property="orderId" column="order_Id" jdbcType="INTEGER"/>
+        <result property="visitorId" column="visitor_Id" jdbcType="INTEGER"/>
+        <result property="evaluationComment" column="evaluation_Comment" jdbcType="VARCHAR"/>
+        <result property="evaluationTime" column="evaluation_Time" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          evaluation_Id, order_Id, visitor_Id, evaluation_Comment, evaluation_Time
+        from evaluation
+        where evaluation_Id = #{evaluationId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          evaluation_Id, order_Id, visitor_Id, evaluation_Comment, evaluation_Time
+        from evaluation
+        <where>
+            <if test="evaluationId != null">
+                and evaluation_Id = #{evaluationId}
+            </if>
+            <if test="orderId != null">
+                and order_Id = #{orderId}
+            </if>
+            <if test="visitorId != null">
+                and visitor_Id = #{visitorId}
+            </if>
+            <if test="evaluationComment != null and evaluationComment != ''">
+                and evaluation_Comment = #{evaluationComment}
+            </if>
+            <if test="evaluationTime != null and evaluationTime != ''">
+                and evaluation_Time = #{evaluationTime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          evaluation_Id, order_Id, visitor_Id, evaluation_Comment, evaluation_Time
+        from klein.evaluation
+    </select>
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from evaluation
+        <where>
+            <if test="evaluationId != null">
+                and evaluation_Id = #{evaluationId}
+            </if>
+            <if test="orderId != null">
+                and order_Id = #{orderId}
+            </if>
+            <if test="visitorId != null">
+                and visitor_Id = #{visitorId}
+            </if>
+            <if test="evaluationComment != null and evaluationComment != ''">
+                and evaluation_Comment = #{evaluationComment}
+            </if>
+            <if test="evaluationTime != null and evaluationTime != ''">
+                and evaluation_Time = #{evaluationTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="evaluationId" useGeneratedKeys="true">
+        insert into evaluation(order_Id, visitor_Id, evaluation_Comment, evaluation_Time)
+        values (#{orderId}, #{visitorId}, #{evaluationComment}, #{evaluationTime})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="evaluationId" useGeneratedKeys="true">
+        insert into evaluation(order_Id, visitor_Id, evaluation_Comment, evaluation_Time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.orderId}, #{entity.visitorId}, #{entity.evaluationComment}, #{entity.evaluationTime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="evaluationId" useGeneratedKeys="true">
+        insert into evaluation(order_Id, visitor_Id, evaluation_Comment, evaluation_Time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.orderId}, #{entity.visitorId}, #{entity.evaluationComment}, #{entity.evaluationTime})
+        </foreach>
+        on duplicate key update
+        order_Id = values(order_Id),
+        visitor_Id = values(visitor_Id),
+        evaluation_Comment = values(evaluation_Comment),
+        evaluation_Time = values(evaluation_Time)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update evaluation
+        <set>
+            <if test="orderId != null">
+                order_Id = #{orderId},
+            </if>
+            <if test="visitorId != null">
+                visitor_Id = #{visitorId},
+            </if>
+            <if test="evaluationComment != null and evaluationComment != ''">
+                evaluation_Comment = #{evaluationComment},
+            </if>
+            <if test="evaluationTime != null and evaluationTime != ''">
+                evaluation_Time = #{evaluationTime},
+            </if>
+        </set>
+        where evaluation_Id = #{evaluationId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from evaluation where evaluation_Id = #{evaluationId}
+    </delete>
+
+</mapper>
+
