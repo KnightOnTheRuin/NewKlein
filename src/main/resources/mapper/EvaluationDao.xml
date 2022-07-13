@@ -124,6 +124,19 @@
     <delete id="deleteById">
         delete from evaluation where evaluation_Id = #{evaluationId}
     </delete>
+    <!--通过餐饮娱乐的Id查找该餐饮娱乐的所有评论-->
+    <select id="queryEvaluationByEntertainmentId" resultMap="BaseResultMap">
+        select
+            evaluation_Id, order_Id, visitor_Id, evaluation_Comment, evaluation_Time
+        from evaluation
+        where order_Id=#{entertainmentId}
+    </select>
 
+    <select id="queryEvaluationByVisitorId" resultMap="BaseResultMap">
+        select
+            evaluation_Id, order_Id, visitor_Id, evaluation_Comment, evaluation_Time
+        from evaluation
+        where visitor_Id=#{visitorId}
+    </select>
 </mapper>
 
