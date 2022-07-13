@@ -121,5 +121,7 @@ public interface HotelDao {
      * @return 实例对象
      */
     List<Hotel> queryHotelByAdministratorId(Long Administrator);
+
+
 }
 

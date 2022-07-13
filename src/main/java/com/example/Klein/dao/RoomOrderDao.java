@@ -112,5 +112,21 @@ public interface RoomOrderDao {
      * @return 实例对象
      */
     List<RoomOrder> queryNoFinishedOrderByVisitorId(Long visitorId);
+
+    /**
+     * 通过管理员Id查找到当前管理员处理过的所有订单
+     *
+     * @param adminId 主键
+     * @return 实例对象
+     */
+    List<RoomOrder> queryCheckedOrderByAdminId(Long adminId);
+
+    /**
+     * 通过管理员Id查找到当前管理员还未处理所有订单
+     *
+     * @param adminId 主键
+     * @return 实例对象
+     */
+    List<RoomOrder> queryNoCheckedOrderByAdminId(Long adminId);
 }
 

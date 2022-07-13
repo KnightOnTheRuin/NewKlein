@@ -186,5 +186,19 @@
             (result=0 or result=1 or result=2) and visitor_id=#{visitorId}
         </where>
     </select>
+    <!--查询管理员已经审核过的订单-->
+    <select id="queryCheckedOrderByAdminId" resultMap="BaseResultMap">
+        select
+        order_Id, order_description, visitor_id, room_order.hotel_id, result,room_order.stars,order_time
+        from room_order,hotel,management
+        where management.administrator_Id=#{adminId} and management.hotel_Id=hotel.hotel_Id and hotel.hotel_Id=room_order.hotel_id and room_order.result!=0
+    </select>
+    <!--查询管理员还没审核过的订单-->
+    <select id="queryNoCheckedOrderByAdminId" resultMap="BaseResultMap">
+        select
+        order_Id, order_description, visitor_id, room_order.hotel_id, result,room_order.stars,order_time
+        from room_order,hotel,management
+        where management.administrator_Id=#{adminId} and management.hotel_Id=hotel.hotel_Id and hotel.hotel_Id=room_order.hotel_id and room_order.result=0
+    </select>
 </mapper>
 
