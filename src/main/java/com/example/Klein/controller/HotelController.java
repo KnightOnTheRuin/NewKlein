@@ -68,9 +68,6 @@ public class HotelController {
      */
     @PostMapping("/updateHotel")
     public Result updateHotel(@RequestBody Hotel hotel) {
-        if(hotel.getStarLevel()!=0&&hotel.getStarLevel()!=3&&hotel.getStarLevel()!=4&&hotel.getStarLevel()!=5){
-            return Result.fail(400,"酒店星级设置错误",hotel);
-        }
         if(hotel.getHotelId()==null){
             return Result.fail(400,"必须经过主键进行更新但主键为空",null);
         }
@@ -79,6 +76,9 @@ public class HotelController {
             return Result.fail(400,"表中无此主键ID对应的数据",null);
         }
 
+        if(hotel.getStarLevel()!=0&&hotel.getStarLevel()!=3&&hotel.getStarLevel()!=4&&hotel.getStarLevel()!=5){
+            return Result.fail(400,"酒店星级设置错误",hotel);
+        }
 
         Hotel _hotel = this.hotelService.update(hotel);
         if (_hotel != null) {
