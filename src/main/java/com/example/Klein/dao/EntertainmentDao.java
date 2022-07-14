@@ -104,5 +104,7 @@ public interface EntertainmentDao {
      */
     List<Entertainment> queryNotCateringByScenicAreaId(Long scenicAreaId);
 
+    List<Entertainment> queryByName(String dimName);
+
 }
 

@@ -70,4 +70,6 @@ public interface HotelService {
     List<Hotel> queryAll();
 
     List<Hotel> queryHotelListByAdminId(Long AdministratorId);
+
+    List<Hotel> queryByName(String dimName);
 }

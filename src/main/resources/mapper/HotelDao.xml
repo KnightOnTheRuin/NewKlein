@@ -22,6 +22,14 @@
         where hotel_Id = #{hotelId}
     </select>
 
+    <!--模糊查询-->
+    <select id="queryByName" resultMap="BaseResultMap">
+        select
+            hotel_Id, hotel_Name, star_Level, phone_Number, address, price, Icon,stars
+        from hotel
+        where hotel_Name like #{dimName}
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select

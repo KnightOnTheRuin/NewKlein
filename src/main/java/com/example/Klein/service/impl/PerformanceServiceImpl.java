@@ -87,4 +87,9 @@ public class PerformanceServiceImpl implements PerformanceService {
     public List<Performance> queryAll(){
         return this.performanceDao.queryAll();
     }
+
+    @Override
+    public List<Performance> queryByName(String dimName) {
+        return this.performanceDao.queryByName(dimName);
+    }
 }

@@ -21,6 +21,14 @@
         where entertainment_Id = #{entertainmentId}
     </select>
 
+    <!--模糊查询-->
+    <select id="queryByName" resultMap="BaseResultMap">
+        select
+            entertainment_Id, entertainment_Name, entertainment_Type, scenic_Area_Id, Icon,address,time
+        from entertainment
+        where entertainment_Name like #{dimName}
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select

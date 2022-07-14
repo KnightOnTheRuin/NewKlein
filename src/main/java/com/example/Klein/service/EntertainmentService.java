@@ -65,4 +65,6 @@ public interface EntertainmentService {
 
     List<Entertainment> queryAll();
 
+    List<Entertainment> queryByName(String dimName);
+
 }

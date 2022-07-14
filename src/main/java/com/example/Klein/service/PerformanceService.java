@@ -56,4 +56,6 @@ public interface PerformanceService {
 
     List<Performance> queryAll();
 
+    List<Performance> queryByName(String dimName);
+
 }

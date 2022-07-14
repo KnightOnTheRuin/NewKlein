@@ -22,6 +22,14 @@
         where performance_Id = #{performanceId}
     </select>
 
+    <!--演出名模糊查询-->
+    <select id="queryByName" resultMap="BaseResultMap">
+        select
+            performance_Id, scenic_Area_Id, performance_Name, team_Name, performance_Type, Icon, time,description
+        from performance
+        where performance_Name like #{dimName}
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
         select

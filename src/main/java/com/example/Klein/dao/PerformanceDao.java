@@ -82,5 +82,7 @@ public interface PerformanceDao {
     List<Performance> queryPerformanceByScenicAreaName(String scenicAreaName);
 
     List<Performance> queryAll();
+
+    List<Performance> queryByName(String dimName);
 }
 

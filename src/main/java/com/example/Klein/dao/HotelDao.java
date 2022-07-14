@@ -122,6 +122,8 @@ public interface HotelDao {
      */
     List<Hotel> queryHotelByAdministratorId(Long Administrator);
 
+    List<Hotel> queryByName(String dimName);
+
 
 }
 

@@ -103,4 +103,9 @@ public class EntertainmentServiceImpl implements EntertainmentService {
     public List<Entertainment> queryAll(){
         return this.entertainmentDao.queryAll();
     }
+
+    @Override
+    public List<Entertainment> queryByName(String dimName) {
+        return this.entertainmentDao.queryByName(dimName);
+    }
 }
