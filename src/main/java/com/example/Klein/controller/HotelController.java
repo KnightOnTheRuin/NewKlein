@@ -121,8 +121,15 @@ public class HotelController {
             NewHotelList.add(newHotel);
         }*/
 
+        List<Hotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            tempHotel.setNewPrice(Integer.parseInt(tempHotel.getPrice()));
+            NewHotelList.add(tempHotel);
+        }
+
         if(hotelList != null){
-            result.setData(hotelList);
+            result.setData(NewHotelList);
         }else{
             result.setData(hotelList);
         }
@@ -142,8 +149,16 @@ public class HotelController {
     public Result queryAllStarHotel(){
         Result result = new Result();
         List<Hotel> hotelList = this.hotelService.queryStarHotel();
+
+        List<Hotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            tempHotel.setNewPrice(Integer.parseInt(tempHotel.getPrice()));
+            NewHotelList.add(tempHotel);
+        }
+
         if(hotelList != null){
-            result.setData(hotelList);
+            result.setData(NewHotelList);
         }else{
             result.setData(null);
         }
@@ -155,8 +170,16 @@ public class HotelController {
     public Result queryAllNoneStarHotel(){
         Result result = new Result();
         List<Hotel> hotelList = this.hotelService.queryNoneStarHotel();
+
+        List<Hotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            tempHotel.setNewPrice(Integer.parseInt(tempHotel.getPrice()));
+            NewHotelList.add(tempHotel);
+        }
+
         if(hotelList != null){
-            result.setData(hotelList);
+            result.setData(NewHotelList);
         }else{
             result.setData(null);
         }
@@ -169,8 +192,15 @@ public class HotelController {
         Result result = new Result();
         List<Hotel> hotelList = this.hotelService.queryHotelListByStarLevel(StarLevel);
 
+        List<Hotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            tempHotel.setNewPrice(Integer.parseInt(tempHotel.getPrice()));
+            NewHotelList.add(tempHotel);
+        }
+
         if(hotelList != null){
-            result.setData(hotelList);
+            result.setData(NewHotelList);
         }else{
             result.setData(null);
         }
@@ -191,8 +221,15 @@ public class HotelController {
             NewHotelList.add(newHotel);
         }*/
 
+        List<Hotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            tempHotel.setNewPrice(Integer.parseInt(tempHotel.getPrice()));
+            NewHotelList.add(tempHotel);
+        }
+
         if(hotelList != null){
-            result.setData(hotelList);
+            result.setData(NewHotelList);
         }else{
             result.setData(null);
         }
@@ -213,8 +250,15 @@ public class HotelController {
             NewHotelList.add(newHotel);
         }*/
 
+        List<Hotel> NewHotelList=new LinkedList<>();
+        for( int i = 0 ; i < hotelList.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+            Hotel tempHotel=hotelList.get(i);
+            tempHotel.setNewPrice(Integer.parseInt(tempHotel.getPrice()));
+            NewHotelList.add(tempHotel);
+        }
+
         if(hotelList != null){
-            result.setData(hotelList);
+            result.setData(NewHotelList);
         }else{
             result.setData(null);
         }

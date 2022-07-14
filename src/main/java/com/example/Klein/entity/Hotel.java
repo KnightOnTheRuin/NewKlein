@@ -1,5 +1,7 @@
 package com.example.Klein.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2022-07-10 13:42:44
  */
+@Data
 public class Hotel implements Serializable {
     private static final long serialVersionUID = 352243721067075739L;
     
@@ -24,6 +27,8 @@ public class Hotel implements Serializable {
     private String price;
     
     private String icon;
+
+    private int newPrice;
 
     private float stars;
 
