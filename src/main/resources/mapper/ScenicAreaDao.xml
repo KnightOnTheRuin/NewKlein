@@ -120,7 +120,7 @@
         Icon_1 = values(Icon_1),
         Icon_2 = values(Icon_2),
         Icon_3 = values(Icon_3),
-        description = values(description)
+        description = values(description),
         city = values(city)
     </insert>
 
