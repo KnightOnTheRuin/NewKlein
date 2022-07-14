@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -196,6 +197,13 @@ public class EntertainmentController {
 
     @PostMapping("/queryAllEntertainmentListByPage")
     public Result queryAllEntertainmentListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //前期准备
+        //List<Entertainment> returnEntertainmentList=new LinkedList<>();
+        PageMessage pageMessage=new PageMessage();
+        String dimName = "%%"+pageSendMessage.getEntertainmentDimName()+"%%";
+        pageSendMessage.setEntertainmentDimName(dimName);
+
+
         //数据解封
         int currentPage,PageSize;
         currentPage=pageSendMessage.getCurrentPage();
@@ -210,10 +218,29 @@ public class EntertainmentController {
         }
 
         List<Entertainment> retrunentertainmentList =entertainmentList.subList(firstIndex,lastIndex);
-        PageMessage pageMessage=new PageMessage();
+        List<Entertainment> dimNameEntertainmentList=this.entertainmentService.queryByName(pageSendMessage.getEntertainmentDimName());
+
+        if(pageSendMessage.getEntertainmentDimName()==null||pageSendMessage.getEntertainmentDimName()=="%%%%"){
+            if(lastIndex>entertainmentList.size()){
+                lastIndex=entertainmentList.size();
+            }
+            retrunentertainmentList =entertainmentList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(entertainmentList.size());
+            pageMessage.setTotalPage(entertainmentList.size()/PageSize+1);
+        }
+        else{
+            if(lastIndex>dimNameEntertainmentList.size()){
+                lastIndex=dimNameEntertainmentList.size();
+            }
+            retrunentertainmentList =dimNameEntertainmentList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(dimNameEntertainmentList.size());
+            pageMessage.setTotalPage(dimNameEntertainmentList.size()/PageSize+1);
+        }
+
+
         pageMessage.setEntertainmentPageList(retrunentertainmentList);
-        pageMessage.setTotalResult(entertainmentList.size());
-        pageMessage.setTotalPage(entertainmentList.size()/PageSize+1);
+        //pageMessage.setTotalResult(entertainmentList.size());
+        //pageMessage.setTotalPage(entertainmentList.size()/PageSize+1);
         pageMessage.setTotal(lastIndex-firstIndex);
 
         if(entertainmentList != null){

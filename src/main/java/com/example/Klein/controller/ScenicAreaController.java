@@ -7,6 +7,7 @@ import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -108,6 +109,28 @@ public class ScenicAreaController {
         return Result.success(result.getData());
     }
 
+    /*//通过名字模糊查询景区并返回分页搜索的结果
+    @PostMapping("/dimQueryByNameForPage")
+    public Result dimQueryByNameForPage(@RequestBody PageSendMessage pageSendMessage){
+        Result result = new Result();
+        String dimName = "%%"+pageSendMessage.getScenicAreaDimName()+"%%";
+        //去掉双引号
+        dimName=dimName.replace("\"","");
+        if(dimName==null||dimName==""){
+            List<ScenicArea> scenicAreaList=this.scenicAreaService.queryAll();
+            result.setData(ScenicArea);
+            return
+        }
+
+        List<ScenicArea> scenicareaList = this.scenicAreaService.dimQueryByName(dimNamein);
+        if(scenicareaList != null){
+            result.setData(scenicareaList);
+        }else{
+            result.setData(null);
+        }
+        return Result.success(result.getData());
+    }*/
+
 
     //查询全部景区
     @PostMapping("/queryAllScenic")
@@ -149,6 +172,12 @@ public class ScenicAreaController {
     }
     @PostMapping("/queryAllScenicListByPage")
     public Result queryAllScenicListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //前期准备
+        List<ScenicArea> returnScenicArea=new LinkedList<>();
+        PageMessage pageMessage=new PageMessage();
+        String dimName = "%%"+pageSendMessage.getScenicAreaDimName()+"%%";
+        pageSendMessage.setScenicAreaDimName(dimName);
+
         //数据解封
         int currentPage,PageSize;
         currentPage=pageSendMessage.getCurrentPage();
@@ -159,14 +188,31 @@ public class ScenicAreaController {
         //实现分页并封装
         Result result = new Result();
         List<ScenicArea> ScenicList =this.scenicAreaService.queryAll();
-        if(lastIndex>ScenicList.size()){
-            lastIndex=ScenicList.size();
+
+        List<ScenicArea> dimNameScenicAreaList=this.scenicAreaService.dimQueryByName(pageSendMessage.getScenicAreaDimName());
+        if(pageSendMessage.getScenicAreaDimName()==null||pageSendMessage.getScenicAreaDimName()=="%%%%"){
+            if(lastIndex>ScenicList.size()){
+                lastIndex=ScenicList.size();
+            }
+            returnScenicArea =ScenicList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(ScenicList.size());
+            pageMessage.setTotalPage(ScenicList.size()/PageSize+1);
         }
-        List<ScenicArea> returnScenicArea =ScenicList.subList(firstIndex,lastIndex);
-        PageMessage pageMessage=new PageMessage();
+        else{
+            if(lastIndex>dimNameScenicAreaList.size()){
+                lastIndex=dimNameScenicAreaList.size();
+            }
+                returnScenicArea =dimNameScenicAreaList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(dimNameScenicAreaList.size());
+            pageMessage.setTotalPage(dimNameScenicAreaList.size()/PageSize+1);
+        }
+
+
+        //List<ScenicArea> returnScenicArea =ScenicList.subList(firstIndex,lastIndex);
+        //PageMessage pageMessage=new PageMessage();
         pageMessage.setScenicAreaPageList(returnScenicArea);
-        pageMessage.setTotalResult(ScenicList.size());
-        pageMessage.setTotalPage(ScenicList.size()/PageSize+1);
+        /*pageMessage.setTotalResult(ScenicList.size());
+        pageMessage.setTotalPage(ScenicList.size()/PageSize+1);*/
         pageMessage.setTotal(lastIndex-firstIndex);
 
         if(ScenicList != null){

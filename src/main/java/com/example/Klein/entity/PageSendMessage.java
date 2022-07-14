@@ -9,6 +9,14 @@ public class PageSendMessage {
 
     private Long userId;
 
+    private String hotelDimName;
+
+    private String scenicAreaDimName;
+
+    private String performanceDimName;
+
+    private String entertainmentDimName;
+
     private int currentPage;
 
     private int pageSize;

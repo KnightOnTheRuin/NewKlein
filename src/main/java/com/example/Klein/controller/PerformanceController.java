@@ -8,6 +8,7 @@ import com.example.Klein.utils.result.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -152,6 +153,12 @@ public class PerformanceController {
 
     @PostMapping("/queryAllPerformanceListByPage")
     public Result queryAllPerformanceListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //前期准备
+        //List<Performance> returnPerformanceList=new LinkedList<>();
+        PageMessage pageMessage=new PageMessage();
+        String dimName = "%%"+pageSendMessage.getPerformanceDimName()+"%%";
+        pageSendMessage.setPerformanceDimName(dimName);
+
         //数据解封
         int currentPage,PageSize;
         currentPage=pageSendMessage.getCurrentPage();
@@ -166,10 +173,27 @@ public class PerformanceController {
             lastIndex=performanceList.size();
         }
         List<Performance> returnPerformanceList =performanceList.subList(firstIndex,lastIndex);
-        PageMessage pageMessage=new PageMessage();
+        List<Performance> dimNamePerformanceList=this.performanceService.queryByName(pageSendMessage.getPerformanceDimName());
+
+        if(pageSendMessage.getPerformanceDimName()==null||pageSendMessage.getPerformanceDimName()=="%%%%"){
+            if(lastIndex>performanceList.size()){
+                lastIndex=performanceList.size();
+            }
+            returnPerformanceList =performanceList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(performanceList.size());
+            pageMessage.setTotalPage(performanceList.size()/PageSize+1);
+        }
+        else{
+            if(lastIndex>dimNamePerformanceList.size()){
+                lastIndex=dimNamePerformanceList.size();
+            }
+            returnPerformanceList =dimNamePerformanceList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(dimNamePerformanceList.size());
+            pageMessage.setTotalPage(dimNamePerformanceList.size()/PageSize+1);
+        }
         pageMessage.setPerformancePageList(returnPerformanceList);
-        pageMessage.setTotalResult(performanceList.size());
-        pageMessage.setTotalPage(performanceList.size()/PageSize+1);
+        //pageMessage.setTotalResult(performanceList.size());
+        //pageMessage.setTotalPage(performanceList.size()/PageSize+1);
         pageMessage.setTotal(lastIndex-firstIndex);
 
         if(performanceList != null){

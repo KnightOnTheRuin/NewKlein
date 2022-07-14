@@ -249,6 +249,12 @@ public class HotelController {
     //分页查询
     @PostMapping("/queryAllHotelListByPage")
     public Result queryAllHotelListByPage(@RequestBody PageSendMessage pageSendMessage){
+        //前期准备
+        List<Hotel> returnHotel=new LinkedList<>();
+        PageMessage pageMessage=new PageMessage();
+        String dimName = "%%"+pageSendMessage.getHotelDimName()+"%%";
+        pageSendMessage.setHotelDimName(dimName);
+
         //数据解封
         int currentPage,PageSize;
         currentPage=pageSendMessage.getCurrentPage();
@@ -263,10 +269,28 @@ public class HotelController {
             lastIndex=hotelList.size();
         }
         List<Hotel> returnHotelList =hotelList.subList(firstIndex,lastIndex);
-        PageMessage pageMessage=new PageMessage();
+        List<Hotel> dimNameHotelList=this.hotelService.queryByName(pageSendMessage.getHotelDimName());
+
+        if(pageSendMessage.getHotelDimName()==null||pageSendMessage.getHotelDimName()=="%%%%"){
+            if(lastIndex>hotelList.size()){
+                lastIndex=hotelList.size();
+            }
+            returnHotel =hotelList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(hotelList.size());
+            pageMessage.setTotalPage(hotelList.size()/PageSize+1);
+        }
+        else{
+            if(lastIndex>dimNameHotelList.size()){
+                lastIndex=dimNameHotelList.size();
+            }
+            returnHotelList =dimNameHotelList.subList(firstIndex,lastIndex);
+            pageMessage.setTotalResult(dimNameHotelList.size());
+            pageMessage.setTotalPage(dimNameHotelList.size()/PageSize+1);
+        }
+
         pageMessage.setHotelPageList(returnHotelList);
-        pageMessage.setTotalResult(hotelList.size());
-        pageMessage.setTotalPage(hotelList.size()/PageSize+1);
+        //pageMessage.setTotalResult(hotelList.size());
+        //pageMessage.setTotalPage(hotelList.size()/PageSize+1);
         pageMessage.setTotal(lastIndex-firstIndex);
 
         if(hotelList != null){
